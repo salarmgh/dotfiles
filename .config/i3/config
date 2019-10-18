@@ -178,6 +178,4 @@ bar {
         position top
         status_command i3status
 }
-exec "setxkbmap -layout us,ir"
-exec "setxkbmap -option 'grp:alt_shift_toggle'"
 exec --no-startup-id feh --bg-scale ~/.config/i3/background.jpg
