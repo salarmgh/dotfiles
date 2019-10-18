@@ -1,7 +1,7 @@
 Xcursor.size: 16
 XTerm*renderFont: true
 XTerm*faceName: Inconsolata Medium
-XTerm*faceSize: 15
+XTerm*faceSize: 12
 xterm*background: black
 xterm*foreground: lightgray
 XTerm*selectToClipboard: true

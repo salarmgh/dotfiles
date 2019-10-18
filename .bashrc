@@ -13,3 +13,12 @@ if [[ $- != *i* ]] ; then
 	# Shell is non-interactive.  Be done now!
 	return
 fi
+
+xrdb ~/.Xresources
+
+# Put your fun stuff here.
+export GOPATH=/usr/local/go
+export PATH=~/bin:~/.local/bin:$GOPATH/bin:$PATH
+alias xclip='xclip -selection "clipboard"'
+
+source ~/.helpers

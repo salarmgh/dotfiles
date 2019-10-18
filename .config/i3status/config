@@ -54,5 +54,3 @@ disk "/home" {
 disk "/var/lib/docker" {
         format = "docker %avail"
 }
-
-
