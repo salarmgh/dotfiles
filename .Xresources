@@ -1,6 +1,6 @@
 Xcursor.size: 16
 XTerm*renderFont: true
-XTerm*faceName: Inconsolata Medium
+XTerm*faceName: IBM Plex Mono Medium
 XTerm*faceSize: 12
 xterm*background: black
 xterm*foreground: lightgray
