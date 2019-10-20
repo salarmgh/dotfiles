@@ -9,6 +9,10 @@
 general {
         colors = true
         interval = 5
+        output_format = "i3bar"
+        color_good = "#00FF00"
+        color_degraded = "#FFFF00"
+        color_bad = "#FF0000"
 }
 
 order += "disk /"
