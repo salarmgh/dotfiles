@@ -16,6 +16,7 @@ order += "disk /home"
 order += "disk /var/lib/docker"
 order += "wireless _first_"
 order += "ethernet _first_"
+order += "memory"
 order += "battery all"
 order += "load"
 order += "tztime local"
@@ -54,3 +55,10 @@ disk "/home" {
 disk "/var/lib/docker" {
         format = "docker %avail"
 }
+
+memory {
+        format = "MEM: %free"
+        threshold_degraded = "10%"
+        format_degraded = "MEMORY: %free"
+}
+
