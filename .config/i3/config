@@ -189,4 +189,5 @@ bar {
             binding_mode       #2F343A #900000 #FFFFFF
         }
 }
+bindsym $mod+m exec "i3lock -c 000000"
 exec --no-startup-id feh --bg-scale ~/.config/i3/background.jpg
