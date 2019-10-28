@@ -7,6 +7,7 @@ xterm*foreground: lightgray
 XTerm*selectToClipboard: true
 XTerm*vt100*metaSendsEscape: true
 XTerm*termName: xterm-256color
+XTerm.vt100.locale: true
 XTerm*VT100*translations: #override \n\
     Ctrl Shift <Key>C: copy-selection(CLIPBOARD) \n\
     Ctrl Shift <Key>V: insert-selection(CLIPBOARD)
