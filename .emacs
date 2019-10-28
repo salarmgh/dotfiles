@@ -18,18 +18,35 @@ There are two things you can do about this warning:
     (add-to-list 'package-archives (cons "gnu" (concat proto "://elpa.gnu.org/packages/")))))
 (package-initialize)
 
+;; disable tabs
+(setq-default indent-tabs-mode nil)
+
+;; Enable auto pair
+(electric-pair-mode 1)
+
+;; Enable pair highlighting
+(require 'paren)
+(setq show-paren-style 'parenthesis)
+(show-paren-mode +1)
 
 ;;; web-mode --- syntax highlighitng for web files
 ;;; Commentary:
 ;;; Add support for syntax highlighting for web files
+(setq-default indent-tabs-mode nil)
 (require 'web-mode)
 (defun web-mode-init-hook ()
   "Hooks for Web mode.  Adjust indent."
   (setq web-mode-markup-indent-offset 2)) ; set indentation for web-mode
 (add-hook 'web-mode-hook  'web-mode-init-hook) ; enable web-mode
+;; set paddings
+(setq web-mode-script-padding 2)
+(setq web-mode-style-padding 2)
+(setq web-mode-block-padding 2)
 (add-to-list 'auto-mode-alist '("\\.jsx?$" . web-mode)) ; enable js syntax highlighting
 (setq web-mode-content-types-alist '(("jsx" . "\\.js[x]?\\'"))) ; enable jsx highlighting inside js files
 (setq web-mode-enable-auto-closing t) ; enable auto closing tag
+(local-set-key (kbd "RET") 'newline-and-indent) ; set indent on new line
+(setq web-mode-code-indent-offset 2) ; set indent
 
 
 ;;; flycheck --- lang lint
@@ -144,7 +161,10 @@ With a prefix argument, insert a newline above the current line."
    [default default default italic underline success warning error])
  '(ansi-color-names-vector
    ["#242424" "#e5786d" "#95e454" "#cae682" "#8ac6f2" "#333366" "#ccaa8f" "#f6f3e8"])
- '(custom-enabled-themes (quote (wombat))))
+ '(custom-enabled-themes (quote (wombat)))
+ '(package-selected-packages
+   (quote
+    (web-mode prettier-js json-mode js2-mode flycheck-color-mode-line exec-path-from-shell emmet-mode add-node-modules-path))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -152,3 +172,7 @@ With a prefix argument, insert a newline above the current line."
  ;; If there is more than one, they won't work right.
  )
 ;;; .emacs ends here
+
+
+
+
