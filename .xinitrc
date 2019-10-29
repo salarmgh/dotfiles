@@ -16,6 +16,5 @@ usb_c_monitor_connected=$?
 xrandr | grep "^HDMI-1" > /dev/null 2>&1
 hdmi_monitor_connected=$?
 
-[ $internal_monitor_connected -eq 0 ] && [ $usb_c_monitor_connected -eq 0 ] && [ $hdmi_monitor_connected -eq 0 ] && ~/.config/i3/3_monitor.sh
-
-exec i3
+[ $internal_monitor_connected -eq 0 ] && [ $usb_c_monitor_connected -eq 0 ] && [ $hdmi_monitor_connected -eq 0 ] && ~/.config/i3/3_monitor.sh && exec i3
+[ $internal_monitor_connected -eq 0 ] && [ $hdmi_monitor_connected -eq 0 ] && ~/.config/i3/2_monitor.sh && exec i3
