@@ -18,6 +18,18 @@ There are two things you can do about this warning:
     (add-to-list 'package-archives (cons "gnu" (concat proto "://elpa.gnu.org/packages/")))))
 (package-initialize)
 
+; list of packages
+(setq package-list '(web-mode flycheck emmet-mode prettier-js add-node-modules-path))
+
+; update repo
+(unless package-archive-contents
+  (package-refresh-contents))
+
+; install packages
+(dolist (package package-list)
+  (unless (package-installed-p package)
+    (package-install package)))
+
 ;; disable tabs
 (setq-default indent-tabs-mode nil)
 
