@@ -19,7 +19,7 @@ There are two things you can do about this warning:
 (package-initialize)
 
 ; list of packages
-(setq package-list '(web-mode flycheck emmet-mode prettier-js add-node-modules-path))
+(setq package-list '(web-mode flycheck emmet-mode prettier-js add-node-modules-path darkburn-theme better-defaults elpy py-autopep8 blacken git-gutter))
 
 ; update repo
 (unless package-archive-contents
@@ -30,11 +30,18 @@ There are two things you can do about this warning:
   (unless (package-installed-p package)
     (package-install package)))
 
+;; the startup message
+(setq inhibit-startup-message t)
+
 ;; disable tabs
 (setq-default indent-tabs-mode nil)
 
 ;; Enable auto pair
 (electric-pair-mode 1)
+
+;; Enable autopep8
+(require 'py-autopep8)
+(add-hook 'elpy-mode-hook 'py-autopep8-enable-on-save)
 
 ;; Enable pair highlighting
 (require 'paren)
@@ -60,6 +67,17 @@ There are two things you can do about this warning:
 (local-set-key (kbd "RET") 'newline-and-indent) ; set indent on new line
 (setq web-mode-code-indent-offset 2) ; set indent
 
+; enable elpy
+(elpy-enable)
+(with-eval-after-load 'python
+  (defun python-shell-completion-native-try ()
+    "Return non-nil if can trigger native completion."
+    (let ((python-shell-completion-native-enable t)
+          (python-shell-completion-native-output-timeout
+           python-shell-completion-native-try-output-timeout))
+      (python-shell-completion-native-get-completions
+       (get-buffer-process (current-buffer))
+       nil "_"))))
 
 ;;; flycheck --- lang lint
 ;;; Commentary:
@@ -69,10 +87,12 @@ There are two things you can do about this warning:
 (setq-default flycheck-disabled-checkers
               (append flycheck-disabled-checkers
                       '(javascript-jshint json-jsonlist)))
+(setq elpy-modules (delq 'elpy-module-flymake elpy-modules))
 
 (flycheck-add-mode 'javascript-eslint 'web-mode) ; enable syntax checker for web-mode
 (add-hook 'after-init-hook #'global-flycheck-mode) ; globally enable syntax checker
 (add-hook 'flycheck-mode-hook 'add-node-modules-path) ; use modules path for local eslint
+(add-hook 'elpy-mode-hook 'flycheck-mode)
 
 ; prettier for web-mode
 (defun web-mode-init-prettier-hook ()
@@ -84,6 +104,18 @@ There are two things you can do about this warning:
 
 ; enable emmet-mode
 (add-hook 'web-mode-hook  'emmet-mode)
+
+; enable git gutter
+(global-git-gutter-mode +1)
+ (custom-set-variables
+ '(git-gutter:modified-sign "~")
+ '(git-gutter:added-sign "+")
+ '(git-gutter:deleted-sign "-"))
+
+(set-face-foreground 'git-gutter:modified "purple")
+(set-face-background 'git-gutter:modified "black")
+(set-face-foreground 'git-gutter:added "green")
+(set-face-foreground 'git-gutter:deleted "red")
 
 ; vim like open above line
 (defun vi-open-line-above ()
@@ -173,10 +205,43 @@ With a prefix argument, insert a newline above the current line."
    [default default default italic underline success warning error])
  '(ansi-color-names-vector
    ["#242424" "#e5786d" "#95e454" "#cae682" "#8ac6f2" "#333366" "#ccaa8f" "#f6f3e8"])
- '(custom-enabled-themes (quote (wombat)))
+ '(company-quickhelp-color-background "#4F4F4F")
+ '(company-quickhelp-color-foreground "#DCDCCC")
+ '(custom-enabled-themes (quote (darkburn)))
+ '(custom-safe-themes
+   (quote
+    ("c7f10959cb1bc7a36ee355c765a1768d48929ec55dde137da51077ac7f899521" "0eccc893d77f889322d6299bec0f2263bffb6d3ecc79ccef76f1a2988859419e" "cdb4ffdecc682978da78700a461cdc77456c3a6df1c1803ae2dd55c59fa703e3" "a24c5b3c12d147da6cef80938dca1223b7c7f70f2f382b26308eba014dc4833a" "732b807b0543855541743429c9979ebfb363e27ec91e82f463c91e68c772f6e3" default)))
+ '(fci-rule-color "#383838")
+ '(hl-sexp-background-color "#121212")
+ '(nrepl-message-colors
+   (quote
+    ("#CC9393" "#DFAF8F" "#F0DFAF" "#7F9F7F" "#BFEBBF" "#93E0E3" "#94BFF3" "#DC8CC3")))
  '(package-selected-packages
    (quote
-    (web-mode prettier-js json-mode js2-mode flycheck-color-mode-line exec-path-from-shell emmet-mode add-node-modules-path))))
+    (git-gutter darkburn-theme zeno-theme zenburn-theme material-theme ## web-mode prettier-js json-mode js2-mode flycheck-color-mode-line exec-path-from-shell emmet-mode add-node-modules-path)))
+ '(pdf-view-midnight-colors (quote ("#DCDCCC" . "#383838")))
+ '(vc-annotate-background "#2B2B2B")
+ '(vc-annotate-color-map
+   (quote
+    ((20 . "#BC8383")
+     (40 . "#CC9393")
+     (60 . "#DFAF8F")
+     (80 . "#D0BF8F")
+     (100 . "#E0CF9F")
+     (120 . "#F0DFAF")
+     (140 . "#5F7F5F")
+     (160 . "#7F9F7F")
+     (180 . "#8FB28F")
+     (200 . "#9FC59F")
+     (220 . "#AFD8AF")
+     (240 . "#BFEBBF")
+     (260 . "#93E0E3")
+     (280 . "#6CA0A3")
+     (300 . "#7CB8BB")
+     (320 . "#8CD0D3")
+     (340 . "#94BFF3")
+     (360 . "#DC8CC3"))))
+ '(vc-annotate-very-old-color "#DC8CC3"))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
