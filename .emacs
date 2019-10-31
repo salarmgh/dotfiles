@@ -152,6 +152,9 @@ With a prefix argument, insert a newline above the current line."
 ; display lines
 (global-display-line-numbers-mode)
 
+; disable menu
+(menu-bar-mode -1)
+
 ; (meta n) for insert line below
 (define-key global-map [(meta n)] 'vi-open-below)
 ; (meta shift n) for insert line above
@@ -249,7 +252,4 @@ With a prefix argument, insert a newline above the current line."
  ;; If there is more than one, they won't work right.
  )
 ;;; .emacs ends here
-
-
-
 
