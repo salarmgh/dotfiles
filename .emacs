@@ -19,7 +19,7 @@ There are two things you can do about this warning:
 (package-initialize)
 
 ; list of packages
-(setq package-list '(web-mode flycheck emmet-mode prettier-js add-node-modules-path darkburn-theme better-defaults elpy py-autopep8 blacken git-gutter dockerfile-mode docker-compose-mode))
+(setq package-list '(web-mode flycheck emmet-mode prettier-js add-node-modules-path darkburn-theme better-defaults elpy py-autopep8 blacken git-gutter dockerfile-mode docker-compose-mode tide company-web))
 
 ; update repo
 (unless package-archive-contents
@@ -52,6 +52,30 @@ There are two things you can do about this warning:
 ;;; Commentary:
 ;;; Add support for syntax highlighting for web files
 (setq-default indent-tabs-mode nil)
+
+
+(defun setup-tide-mode ()
+  (interactive)
+  (tide-setup)
+  (flycheck-mode +1)
+  (setq flycheck-check-syntax-automatically '(save mode-enabled))
+  (eldoc-mode +1)
+  (tide-hl-identifier-mode +1)
+  ;; company is an optional dependency. You have to
+  ;; install it separately via package-install
+  ;; `M-x package-install [ret] company`
+  (company-mode +1))
+
+;; aligns annotation to the right hand side
+(setq company-tooltip-align-annotations t)
+
+;; formats the buffer before saving
+(add-hook 'before-save-hook 'tide-format-before-save)
+
+(add-hook 'typescript-mode-hook #'setup-tide-mode)
+
+
+
 (require 'web-mode)
 (defun web-mode-init-hook ()
   "Hooks for Web mode.  Adjust indent."
@@ -61,11 +85,22 @@ There are two things you can do about this warning:
 (setq web-mode-script-padding 2)
 (setq web-mode-style-padding 2)
 (setq web-mode-block-padding 2)
-(add-to-list 'auto-mode-alist '("\\.jsx?$" . web-mode)) ; enable js syntax highlighting
-(setq web-mode-content-types-alist '(("jsx" . "\\.js[x]?\\'"))) ; enable jsx highlighting inside js files
+(add-to-list 'auto-mode-alist '("\\.tsx\\'" . web-mode))
+;(add-to-list 'auto-mode-alist '("\\.jsx?$" . web-mode)) ; enable js syntax highlighting
+;(add-to-list 'auto-mode-alist '("\\.tsx?$" . typescript-mode)) ; enable js syntax highlighting
+;(setq web-mode-content-types-alist '(("jsx" . "\\.js[x]?\\'"))) ; enable jsx highlighting inside js files
+;(setq web-mode-content-types-alist '(("jsx" . "\\.ts[x]?\\'"))) ; enable jsx highlighting inside js files
 (setq web-mode-enable-auto-closing t) ; enable auto closing tag
 (local-set-key (kbd "RET") 'newline-and-indent) ; set indent on new line
 (setq web-mode-code-indent-offset 2) ; set indent
+
+(add-hook 'web-mode-hook
+          (lambda ()
+            (when (string-equal "tsx" (file-name-extension buffer-file-name))
+              (setup-tide-mode))))
+;; enable typescript-tslint checker
+
+
 
 ; enable elpy
 (elpy-enable)
@@ -88,12 +123,11 @@ There are two things you can do about this warning:
               (append flycheck-disabled-checkers
                       '(javascript-jshint json-jsonlist)))
 (setq elpy-modules (delq 'elpy-module-flymake elpy-modules))
-
 (flycheck-add-mode 'javascript-eslint 'web-mode) ; enable syntax checker for web-mode
 (add-hook 'after-init-hook #'global-flycheck-mode) ; globally enable syntax checker
 (add-hook 'flycheck-mode-hook 'add-node-modules-path) ; use modules path for local eslint
 (add-hook 'elpy-mode-hook 'flycheck-mode)
-
+(flycheck-add-mode 'typescript-tslint 'web-mode)
 ; prettier for web-mode
 (defun web-mode-init-prettier-hook ()
   (add-node-modules-path)
@@ -133,7 +167,7 @@ There are two things you can do about this warning:
     ("#CC9393" "#DFAF8F" "#F0DFAF" "#7F9F7F" "#BFEBBF" "#93E0E3" "#94BFF3" "#DC8CC3")))
  '(package-selected-packages
    (quote
-    (dockerfile-mode git-gutter darkburn-theme zeno-theme zenburn-theme material-theme ## web-mode prettier-js json-mode js2-mode flycheck-color-mode-line exec-path-from-shell emmet-mode add-node-modules-path)))
+    (company-web tide typescript-mode dockerfile-mode git-gutter darkburn-theme zeno-theme zenburn-theme material-theme ## web-mode prettier-js json-mode js2-mode flycheck-color-mode-line exec-path-from-shell emmet-mode add-node-modules-path)))
  '(pdf-view-midnight-colors (quote ("#DCDCCC" . "#383838")))
  '(vc-annotate-background "#2B2B2B")
  '(vc-annotate-color-map
