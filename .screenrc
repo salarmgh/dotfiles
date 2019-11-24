@@ -1,0 +1,19 @@
+# Change escape key
+escape ^Jj
+
+# Bind remove to X
+bind X remove
+
+# Don't display the copyright page
+startup_message off
+
+# TAB-completion flash in heading bar
+vbell off
+
+# Keep scrollback 10000 lines
+defscrollback 10000
+
+# Statusbar
+#hardstatus             alwayslastline
+#hardstatus string '%{= kG}[ %{G}%H %{g}][%= %{= kw}%?%-Lw%?%{r}(%{W}%n*%f%t%?(%u)%?%{r})%{w}%?%+Lw%?%?%= %{g}][%{B} %d/%m %{W}%c %{g}]'
+hardstatus off

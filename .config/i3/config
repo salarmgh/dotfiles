@@ -30,7 +30,7 @@ font pango:IBM Plex Mono Medium 10
 floating_modifier $mod
 
 # start a terminal
-bindsym $mod+Return exec xterm tmux
+bindsym $mod+Return exec xterm -e screen
 
 # kill focused window
 bindsym $mod+Shift+q kill

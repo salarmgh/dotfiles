@@ -1,13 +1,13 @@
 Xcursor.size: 16
 XTerm*renderFont: true
 XTerm*faceName: IBM Plex Mono Medium
-XTerm*faceSize: 11
-xterm*background: #121212
-xterm*foreground: lightgray
+XTerm*faceSize: 14
+xterm*background: #ffffd7
+xterm*foreground: #657b83
 XTerm*selectToClipboard: true
 XTerm*vt100*metaSendsEscape: true
 XTerm*termName: xterm-256color
 XTerm.vt100.locale: true
 XTerm*VT100*translations: #override \n\
     Ctrl Shift <Key>C: copy-selection(CLIPBOARD) \n\
-    Ctrl Shift <Key>V: insert-selection(CLIPBOARD)
+        Ctrl Shift <Key>V: insert-selection(CLIPBOARD)

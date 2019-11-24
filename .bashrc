@@ -19,6 +19,7 @@ xrdb ~/.Xresources
 # Put your fun stuff here.
 export GOPATH=/usr/local/go
 export PATH=~/bin:~/.local/bin:$GOPATH/bin:$PATH
+export TERM=xterm-256color
 alias xclip='xclip -selection "clipboard"'
 
 source ~/.helpers
