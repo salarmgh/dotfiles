@@ -30,6 +30,11 @@ There are two things you can do about this warning:
 ;; Enable auto pair
 (electric-pair-mode 1)
 
+;; Show paran matching
+(require 'paren)
+(setq show-paren-style 'parenthesis)
+(show-paren-mode +1)
+
 ; Display lines
 (global-display-line-numbers-mode)
 
@@ -119,7 +124,7 @@ With a prefix argument, insert a newline above the current line."
 (global-set-key (kbd "M-c") 'copy-to-clipboard)
 
 ; rectangle select mode
-(global-set-key (kbd "C-B") 'rectangle-mark-mode)
+(global-set-key (kbd "C-v") 'rectangle-mark-mode)
 
 ;; Theme setup
 (custom-set-variables
