@@ -124,7 +124,7 @@ With a prefix argument, insert a newline above the current line."
 (global-set-key (kbd "M-c") 'copy-to-clipboard)
 
 ; rectangle select mode
-(global-set-key (kbd "C-v") 'rectangle-mark-mode)
+(global-set-key (kbd "C-i") 'rectangle-mark-mode)
 
 ;; Theme setup
 (custom-set-variables

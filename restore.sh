@@ -1,1 +1,1 @@
-cp -r .config .bash_profile .bashrc .emacs .tmux.conf .xinitrc .Xresources ~
+cp -r .config .bash_profile .bashrc .emacs .tmux.conf .xinitrc .Xresources .screenrc ~
