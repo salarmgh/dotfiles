@@ -125,3 +125,6 @@ With a prefix argument, insert a newline above the current line."
 
 ; rectangle select mode
 (global-set-key (kbd "C-x v") 'rectangle-mark-mode)
+
+(set-face-foreground 'mode-line "green")
+(set-face-background 'mode-line "black")

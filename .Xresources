@@ -3,7 +3,7 @@ XTerm*renderFont: true
 XTerm*faceName: IBM Plex Mono Medium
 XTerm*faceSize: 14
 xterm*background: black
-xterm*foreground: lightgray
+xterm*foreground: green
 XTerm*selectToClipboard: true
 XTerm*vt100*metaSendsEscape: true
 XTerm*termName: xterm-256color
