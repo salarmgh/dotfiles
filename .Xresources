@@ -2,8 +2,8 @@ Xcursor.size: 16
 XTerm*renderFont: true
 XTerm*faceName: IBM Plex Mono Medium
 XTerm*faceSize: 14
-xterm*background: #ffffd7
-xterm*foreground: #657b83
+xterm*background: black
+xterm*foreground: lightgray
 XTerm*selectToClipboard: true
 XTerm*vt100*metaSendsEscape: true
 XTerm*termName: xterm-256color

@@ -189,5 +189,16 @@ bar {
             binding_mode       #2F343A #900000 #FFFFFF
         }
 }
+
+# Pulse Audio controls
+bindsym XF86AudioRaiseVolume exec --no-startup-id pactl -- set-sink-volume 0 +5% #increase sound volume
+bindsym XF86AudioLowerVolume exec --no-startup-id pactl -- set-sink-volume 0 -5% #decrease sound volume
+bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute 0 toggle # mute sound
+
+# Sreen brightness controls
+bindsym XF86MonBrightnessUp exec ~/.config/i3/inc_brightness.sh
+bindsym XF86MonBrightnessDown exec ~/.config/i3/dec_brightness.sh
 bindsym $mod+m exec "i3lock -c 000000"
+
 exec --no-startup-id feh --bg-scale ~/.config/i3/background.jpg
+exec --no-startup-id dunst
