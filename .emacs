@@ -128,3 +128,6 @@ With a prefix argument, insert a newline above the current line."
 
 (set-face-foreground 'mode-line "green")
 (set-face-background 'mode-line "black")
+(setq make-backup-files nil)
+(setq auto-save-default nil)
+(setq backup-by-copying t)
