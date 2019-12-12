@@ -30,7 +30,7 @@ font pango:IBM Plex Mono Medium 10
 floating_modifier $mod
 
 # start a terminal
-bindsym $mod+Return exec xterm -e tmux
+bindsym $mod+Return exec xterm -bc -e tmux
 
 # kill focused window
 bindsym $mod+Shift+q kill
@@ -202,3 +202,5 @@ bindsym $mod+m exec "i3lock -c 000000"
 
 exec --no-startup-id feh --bg-scale ~/.config/i3/background.jpg
 exec --no-startup-id dunst
+exec --no-startup-id setxkbmap -layout us,ir
+# exec --no-startup-id setxkbmap -option "grp:shift_caps_toggle"
