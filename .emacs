@@ -126,8 +126,8 @@ With a prefix argument, insert a newline above the current line."
 ; rectangle select mode
 (global-set-key (kbd "C-x v") 'rectangle-mark-mode)
 
-(set-face-foreground 'mode-line "green")
-(set-face-background 'mode-line "black")
+(set-face-foreground 'mode-line "black")
+(set-face-background 'mode-line "#f8f8f8")
 (setq make-backup-files nil)
 (setq auto-save-default nil)
 (setq backup-by-copying t)

@@ -16,6 +16,8 @@ fi
 
 export GOPATH=/usr/local/go
 export PATH=~/bin:~/.local/bin:$GOPATH/bin:$PATH
+export PS1="\u@\h:\w\$ "
+export TERM='xterm'
 alias xclip='xclip -selection "clipboard"'
 alias genupdate='emerge -auvND --with-bdeps=y @world'
 

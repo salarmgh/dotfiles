@@ -3,11 +3,11 @@ XTerm*renderFont: true
 XTerm*loginshell: true
 XTerm*faceName: IBM Plex Mono Medium
 XTerm*faceSize: 14
-xterm*background: black
-xterm*foreground: green
+xterm*background: #f8f8f8
+xterm*foreground: black
 XTerm*selectToClipboard: true
 XTerm*vt100*metaSendsEscape: true
-XTerm*termName: xterm-256color
+XTerm*termName: xterm
 XTerm.vt100.locale: true
 xTerm.vt100.blink: true
 XTerm.vt100.saveLines: 10000000
