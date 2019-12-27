@@ -9,6 +9,24 @@
 #
 # Please see https://i3wm.org/docs/userguide.html for a complete reference!
 
+# Colors
+set $base00 #fdf6e3
+set $base01 #eee8d5
+set $base02 #93a1a1
+set $base03 #839496
+set $base04 #657b83
+set $base05 #586e75
+set $base06 #073642
+set $base07 #002b36
+set $base08 #dc322f
+set $base09 #cb4b16
+set $base0A #b58900
+set $base0B #859900
+set $base0C #2aa198
+set $base0D #268bd2
+set $base0E #6c71c4
+set $base0F #d33682
+
 set $mod Mod4
 
 # Font for window titles. Will also be used by the bar unless a different font
@@ -161,14 +179,14 @@ mode "resize" {
         bindsym $mod+r mode "default"
 }
 
-# class                 border  bground text    indicator child_border
-client.focused          #4F4F4F #000000 #FFFFFF #B0B0B0   #4A4A4A
-client.focused_inactive #333333 #5F676A #FFFFFF #484E50   #5F676A
-client.unfocused        #333333 #222222 #888888 #292D2E   #222222
-client.urgent           #2F343A #900000 #FFFFFF #900000   #900000
-client.placeholder      #000000 #0C0C0C #FFFFFF #000000   #0C0C0C
-
-client.background       #FFFFFF
+# Basic color configuration using the Base16 variables for windows and borders.
+# Property Name         Border  BG      Text    Indicator Child Border
+client.focused          $base05 $base00 $base04 $base00 $base0C
+client.focused_inactive $base01 $base01 $base05 $base03 $base01
+client.unfocused        $base01 $base00 $base05 $base01 $base01
+client.urgent           $base08 $base08 $base00 $base08 $base08
+client.placeholder      $base00 $base00 $base05 $base00 $base00
+client.background       $base07
 
 bindsym $mod+r mode "resize"
 
@@ -178,15 +196,16 @@ bar {
         position top
         status_command i3status
         colors {
-            background #000000
-            statusline #FFFFFF
-            separator  #666666
+        background $base00
+        separator  $base01
+        statusline $base04
 
-            focused_workspace  #494949 #777777 #FFFFFF
-            active_workspace   #333333 #222222 #FFFFFF
-            inactive_workspace #333333 #222222 #888888
-            urgent_workspace   #2F343A #900000 #FFFFFF
-            binding_mode       #2F343A #900000 #FFFFFF
+        # State             Border  BG      Text
+        focused_workspace   $base0D $base00 $base04
+        active_workspace    $base05 $base03 $base00
+        inactive_workspace  $base03 $base01 $base05
+        urgent_workspace    $base08 $base08 $base00
+        binding_mode        $base00 $base0A $base00
         }
 }
 
