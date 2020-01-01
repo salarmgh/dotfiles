@@ -19,6 +19,7 @@ export PATH=~/bin:~/.local/bin:$GOPATH/bin:$PATH
 export PS1="\u@\h:\w\$ "
 alias xclip='xclip -selection "clipboard"'
 alias genupdate='sudo emerge -auvND --with-bdeps=y @world'
+alias emacs='emacs -nw'
 
 source ~/.helpers
 

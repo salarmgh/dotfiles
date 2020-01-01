@@ -1,4 +1,3 @@
-;; Melpa repo
 (require 'package)
 (let* ((no-ssl (and (memq system-type '(windows-nt ms-dos))
                     (not (gnutls-available-p))))
@@ -18,14 +17,83 @@ There are two things you can do about this warning:
     (add-to-list 'package-archives (cons "gnu" (concat proto "://elpa.gnu.org/packages/")))))
 (package-initialize)
 
+;; flycheck
+(require 'flycheck)
+
+;; tide
+(defun setup-tide-mode ()
+  (interactive)
+  (tide-setup)
+  (flycheck-mode +1)
+  (setq flycheck-check-syntax-automatically '(save mode-enabled))
+  (eldoc-mode +1)
+  (tide-hl-identifier-mode +1)
+  ;; company is an optional dependency. You have to
+  ;; install it separately via package-install
+  ;; `M-x package-install [ret] company`
+  (company-mode +1))
+(require 'tide)
+(require 'web-mode)
+(add-to-list 'auto-mode-alist '("\\.tsx\\'" . web-mode))
+(add-hook 'web-mode-hook
+          (lambda ()
+            (when (string-equal "tsx" (file-name-extension buffer-file-name))
+              (setup-tide-mode))))
+
+;; enable typescript-tslint checker
+(flycheck-add-mode 'typescript-tslint 'web-mode)
+
+;; aligns annotation to the right hand side
+(setq company-tooltip-align-annotations t)
+
+;; formats the buffer before saving
+(add-hook 'before-save-hook 'tide-format-before-save)
+
+(add-hook 'typescript-mode-hook #'setup-tide-mode)
+
+;; javascript checker
+(add-hook 'js2-mode-hook #'setup-tide-mode)
+;; configure javascript-tide checker to run after your default javascript checker
+(flycheck-add-next-checker 'javascript-eslint 'javascript-tide 'append)
+
+;; jsx checker
+(require 'web-mode)
+(add-to-list 'auto-mode-alist '("\\.jsx\\'" . web-mode))
+(add-hook 'web-mode-hook
+          (lambda ()
+            (when (string-equal "jsx" (file-name-extension buffer-file-name))
+              (setup-tide-mode))))
+;; configure jsx-tide checker to run after your default jsx checker
+(flycheck-add-mode 'javascript-eslint 'web-mode)
+(flycheck-add-next-checker 'javascript-eslint 'jsx-tide 'append)
+
+;;python
+(elpy-enable)
+;; Enable Flycheck
+(when (require 'flycheck nil t)
+(setq elpy-modules (delq 'elpy-module-flymake elpy-modules))
+(add-hook 'elpy-mode-hook 'flycheck-mode))
+
+;; Enable autopep8
+(require 'py-autopep8)
+(add-hook 'elpy-mode-hook 'py-autopep8-enable-on-save)
+
+(setq py-autopep8-options '("--max-line-length=80"))
+
 ;; Disable syntax highlighting
-(global-font-lock-mode 0)
+;(global-font-lock-mode 0)
 
 ;; Remove startup message
 (setq inhibit-startup-message t)
 
 ;; Disable tabs
 (setq-default indent-tabs-mode nil)
+
+;; Indent size
+(setq-default tab-width 4)
+
+;; JS indent
+ (setq js-indent-level 2)
 
 ;; Enable auto pair
 (electric-pair-mode 1)
@@ -41,39 +109,10 @@ There are two things you can do about this warning:
 ; Disable menu
 (menu-bar-mode -1)
 
+; Disable indentation view
+(highlight-indentation-mode -1)
+
 ;; Functions
-; Insert line above and bellow
-; Insert above line
-(defun open-line-above ()
-  "Insert a newline above the current line and put point at beginning."
-  (interactive)
-  (unless (bolp)
-    (beginning-of-line))
-  (newline)
-  (forward-line -1)
-  (indent-according-to-mode))
-
-; Insert line below
-(defun open-line-below ()
-  "Insert a newline below the current line and put point at beginning."
-  (interactive)
-  (unless (eolp)
-    (end-of-line))
-  (newline-and-indent))
-
-; def abovep for open below
-(defun open-below (&optional abovep)
-  "Insert a newline below the current line and put point at beginning.
-With a prefix argument, insert a newline above the current line."
-  (interactive "P")
-  (open-line-below))
-
-; def abovep for open above
-(defun open-above (&optional abovep)
-  "Insert a newline below the current line and put point at beginning.
-With a prefix argument, insert a newline above the current line."
-  (interactive "P")
-  (open-line-above))
 
 ; Clipboard management
 ; copy to clipboard function
@@ -106,11 +145,6 @@ With a prefix argument, insert a newline above the current line."
   )
 )
 ;; Shortcuts
-; (meta n) for insert line below
-(define-key global-map [(meta n)] 'open-below)
-
-; (meta shift n) for insert line above
-(define-key global-map [(meta shift n)] 'open-above)
 
 ; (meta [) for comment region
 (define-key global-map [(meta \[)] 'comment-region)
@@ -126,8 +160,8 @@ With a prefix argument, insert a newline above the current line."
 ; rectangle select mode
 (global-set-key (kbd "C-x v") 'rectangle-mark-mode)
 
-(set-face-foreground 'mode-line "black")
-(set-face-background 'mode-line "#f8f8f8")
+;(set-face-foreground 'mode-line "black")
+;(set-face-background 'mode-line "#f8f8f8")
 (setq make-backup-files nil)
 (setq auto-save-default nil)
 (setq backup-by-copying t)
@@ -202,3 +236,26 @@ With a prefix argument, insert a newline above the current line."
 
 (global-set-key (kbd "C-c i") 'delete-between-pair)
 (global-set-key (kbd "C-c a") 'delete-all-pair)
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(ansi-color-faces-vector
+   [default default default italic underline success warning error])
+ '(custom-enabled-themes (quote (darkburn)))
+ '(custom-safe-themes
+   (quote
+    ("c7f10959cb1bc7a36ee355c765a1768d48929ec55dde137da51077ac7f899521" default)))
+ '(elpy-modules
+   (quote
+    (elpy-module-company elpy-module-eldoc elpy-module-pyvenv elpy-module-yasnippet elpy-module-django elpy-module-sane-defaults)))
+ '(package-selected-packages
+   (quote
+    (blacken py-autopep8 elpy darkburn-theme ## company flycheck-package web-mode tide))))
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ )
