@@ -83,6 +83,9 @@ There are two things you can do about this warning:
 ;; Disable syntax highlighting
 ;(global-font-lock-mode 0)
 
+;; delete inside selection when typing
+(delete-selection-mode 1)
+
 ;; Remove startup message
 (setq inhibit-startup-message t)
 
