@@ -163,6 +163,9 @@ There are two things you can do about this warning:
 ; rectangle select mode
 (global-set-key (kbd "C-x v") 'rectangle-mark-mode)
 
+; rectangle select mode
+(global-set-key (kbd "C-x r") 'string-rectangle)
+
 ;(set-face-foreground 'mode-line "black")
 ;(set-face-background 'mode-line "#f8f8f8")
 (setq make-backup-files nil)
@@ -255,7 +258,7 @@ There are two things you can do about this warning:
     (elpy-module-company elpy-module-eldoc elpy-module-pyvenv elpy-module-yasnippet elpy-module-django elpy-module-sane-defaults)))
  '(package-selected-packages
    (quote
-    (blacken py-autopep8 elpy darkburn-theme ## company flycheck-package web-mode tide))))
+    (docker-compose-mode yaml-mode blacken py-autopep8 elpy darkburn-theme ## company flycheck-package web-mode tide))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
