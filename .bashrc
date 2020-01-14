@@ -23,3 +23,4 @@ alias emacs='emacs -nw'
 
 source ~/.helpers
 
+source <(kubectl completion bash)

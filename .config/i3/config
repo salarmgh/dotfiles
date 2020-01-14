@@ -203,6 +203,7 @@ bindsym XF86MonBrightnessDown exec ~/.config/i3/dec_brightness.sh
 bindsym $mod+m exec "i3lock -c 000000"
 
 exec --no-startup-id feh --bg-scale ~/.config/i3/background.jpg
+exec --no-startup-id parcellite -n
 exec --no-startup-id dunst
 exec --no-startup-id setxkbmap -layout us,ir
 # exec --no-startup-id setxkbmap -option "grp:shift_caps_toggle"
