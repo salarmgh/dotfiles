@@ -23,6 +23,7 @@ There are two things you can do about this warning:
 ;; tide
 (defun setup-tide-mode ()
   (interactive)
+  (setq typescript-indent-level 2)
   (tide-setup)
   (flycheck-mode +1)
   (setq flycheck-check-syntax-automatically '(save mode-enabled))
@@ -50,7 +51,6 @@ There are two things you can do about this warning:
 (add-hook 'before-save-hook 'tide-format-before-save)
 
 (add-hook 'typescript-mode-hook #'setup-tide-mode)
-
 ;; javascript checker
 (add-hook 'js2-mode-hook #'setup-tide-mode)
 ;; configure javascript-tide checker to run after your default javascript checker
@@ -93,7 +93,7 @@ There are two things you can do about this warning:
 (setq-default indent-tabs-mode nil)
 
 ;; Indent size
-(setq-default tab-width 4)
+(setq-default tab-width 2)
 
 ;; JS indent
  (setq js-indent-level 2)
@@ -168,9 +168,9 @@ There are two things you can do about this warning:
 
 ;(set-face-foreground 'mode-line "black")
 ;(set-face-background 'mode-line "#f8f8f8")
-(setq make-backup-files nil)
-(setq auto-save-default nil)
-(setq backup-by-copying t)
+;;(setq make-backup-files nil)
+;;(setq auto-save-default nil)
+;;(setq backup-by-copying t)
 
 
 ; Re-create ci" ca"...
@@ -258,10 +258,96 @@ There are two things you can do about this warning:
     (elpy-module-company elpy-module-eldoc elpy-module-pyvenv elpy-module-yasnippet elpy-module-django elpy-module-sane-defaults)))
  '(package-selected-packages
    (quote
-    (php-mode docker-compose-mode yaml-mode blacken py-autopep8 elpy darkburn-theme ## company flycheck-package web-mode tide))))
+    (git-gutter undo-fu php-mode docker-compose-mode yaml-mode blacken py-autopep8 elpy darkburn-theme ## company flycheck-package web-mode tide))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  )
+
+(setq typescript-indent-level 2)
+(setq js2-basic-offset 2)
+(setq-default indent-tabs-mode nil)
+(setq-default tab-width 2)
+(setq indent-line-function 'insert-tab)
+(defun my-web-mode-hook ()
+  "Hooks for Web mode."
+  (setq web-mode-markup-indent-offset 2)
+)
+(add-hook 'web-mode-hook  'my-web-mode-hook)
+
+
+(setq require-final-newline t)
+(add-hook 'before-save-hook 'delete-trailing-whitespace)
+(setq backup-directory-alist `(("." . "~/.emacs-saves")))
+(setq backup-by-copying t)
+(setq js-indent-level 2)
+(setq css-indent-offset 2)
+
+(setq web-mode-markup-indent-offset 2)
+(setq web-mode-attr-indent-offset 2)
+(setq web-mode-attr-value-indent-offset 2)
+(setq web-mode-code-indent-offset 2)
+(setq web-mode-css-indent-offset 2)
+(setq web-mode-enable-current-column-highlight 1)
+(setq web-mode-enable-current-element-highlight 1)
+(setq web-mode-block-padding 0)
+(setq web-mode-script-padding 2)
+(setq web-mode-style-padding 2)
+(add-to-list 'auto-mode-alist '("\\.htm.*$" . web-mode))
+
+
+; Insert line above and bellow
+; Insert above line
+(defun open-line-above ()
+  "Insert a newline above the current line and put point at beginning."
+  (interactive)
+  (unless (bolp)
+    (beginning-of-line))
+  (newline)
+  (forward-line -1)
+  (indent-according-to-mode))
+
+; Insert line below
+(defun open-line-below ()
+  "Insert a newline below the current line and put point at beginning."
+  (interactive)
+  (unless (eolp)
+    (end-of-line))
+  (newline-and-indent))
+
+; def abovep for opeelow
+(defun open-below (&ional abovep)
+  "Insert a newline ow the current line and put point at beginning.
+With a prefix argume insert a newline above the current line."
+  (interactive "P")
+  (open-line-below))
+
+; def abovep for open above
+(defun open-above (&optional abovep)
+  "Insert a newline below the current line and put point at beginning.
+With a prefix argument, insert a newline above the current line."
+  (interactive "P")
+  (open-line-above))
+; (meta n) for insert line below
+(define-key global-map [(meta n)] 'open-below)
+
+; (meta shift n) for insert line above
+(define-key global-map [(meta shift n)] 'open-above)
+
+; change undo key binding
+;(global-set-key (kbd "C-q") 'undo)
+;(global-set-key (kbd "C-\\") 'redo)
+(global-set-key (kbd "C-q") 'undo-fu-only-undo)
+(global-set-key (kbd "C-\\") 'undo-fu-only-redo)
+
+
+
+(setq scroll-step 1)
+
+(set-display-table-slot standard-display-table 'wrap ?\ )
+
+(tool-bar-mode -1)
+(setq inhibit-startup-screen t)
+(global-git-gutter-mode +1)
