@@ -258,7 +258,7 @@ There are two things you can do about this warning:
     (elpy-module-company elpy-module-eldoc elpy-module-pyvenv elpy-module-yasnippet elpy-module-django elpy-module-sane-defaults)))
  '(package-selected-packages
    (quote
-    (git-gutter undo-fu php-mode docker-compose-mode yaml-mode blacken py-autopep8 elpy darkburn-theme ## company flycheck-package web-mode tide))))
+    (smex ido-vertical-mode git-gutter undo-fu php-mode docker-compose-mode yaml-mode blacken py-autopep8 elpy darkburn-theme ## company flycheck-package web-mode tide))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -362,3 +362,18 @@ With a prefix argument, insert a newline above the current line."
 
 (global-set-key (kbd "M-.") 'next-buffer)
 (global-set-key (kbd "M-,") 'previous-buffer)
+
+(setq ido-enable-flex-matching nil)
+(setq ido-create-new-buffer 'always)
+(setq ido-everywhere t)
+(ido-mode 1)
+(ido-vertical-mode 1)
+;; (use-package ido-vertical-mode
+;;              :ensure t
+;;              :init
+;;              (ido-vertical-mode 1))
+(setq ido-vertical-define-keys 'C-n-and-C-p-only)
+(global-set-key (kbd "C-x b") 'ibuffer)
+(global-set-key (kbd "C-x C-b") 'ido-switch-buffer)
+(setq ibuffer-expert t)
+(global-set-key (kbd "M-x") 'smex)
