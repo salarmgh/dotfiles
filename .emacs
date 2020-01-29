@@ -298,44 +298,6 @@ There are two things you can do about this warning:
 (add-to-list 'auto-mode-alist '("\\.htm.*$" . web-mode))
 
 
-; Insert line above and bellow
-; Insert above line
-(defun open-line-above ()
-  "Insert a newline above the current line and put point at beginning."
-  (interactive)
-  (unless (bolp)
-    (beginning-of-line))
-  (newline)
-  (forward-line -1)
-  (indent-according-to-mode))
-
-; Insert line below
-(defun open-line-below ()
-  "Insert a newline below the current line and put point at beginning."
-  (interactive)
-  (unless (eolp)
-    (end-of-line))
-  (newline-and-indent))
-
-; def abovep for opeelow
-(defun open-below (&ional abovep)
-  "Insert a newline ow the current line and put point at beginning.
-With a prefix argume insert a newline above the current line."
-  (interactive "P")
-  (open-line-below))
-
-; def abovep for open above
-(defun open-above (&optional abovep)
-  "Insert a newline below the current line and put point at beginning.
-With a prefix argument, insert a newline above the current line."
-  (interactive "P")
-  (open-line-above))
-; (meta n) for insert line below
-(define-key global-map [(meta n)] 'open-below)
-
-; (meta shift n) for insert line above
-(define-key global-map [(meta shift n)] 'open-above)
-
 ; change undo key binding
 ;(global-set-key (kbd "C-q") 'undo)
 ;(global-set-key (kbd "C-\\") 'redo)
@@ -351,3 +313,52 @@ With a prefix argument, insert a newline above the current line."
 (tool-bar-mode -1)
 (setq inhibit-startup-screen t)
 (global-git-gutter-mode +1)
+
+
+; vim like open above line
+(defun vi-open-line-above ()
+  "Insert a newline above the current line and put point at beginning."
+  (interactive)
+  (unless (bolp)
+    (beginning-of-line))
+  (newline)
+  (forward-line -1)
+  (indent-according-to-mode))
+
+; vim like open line below
+(defun vi-open-line-below ()
+  "Insert a newline below the current line and put point at beginning."
+  (interactive)
+  (unless (eolp)
+    (end-of-line))
+  (newline-and-indent))
+
+; def abovep for open below
+(defun vi-open-below (&optional abovep)
+  "Insert a newline below the current line and put point at beginning.
+With a prefix argument, insert a newline above the current line."
+  (interactive "P")
+  (vi-open-line-below))
+
+; def abovep for open above
+(defun vi-open-above (&optional abovep)
+  "Insert a newline below the current line and put point at beginning.
+With a prefix argument, insert a newline above the current line."
+  (interactive "P")
+  (vi-open-line-above))
+
+; (meta n) for insert line below
+(define-key global-map [(meta n)] 'vi-open-below)
+; (meta shift n) for insert line above
+(define-key global-map [(meta shift n)] 'vi-open-above)
+
+(global-set-key (kbd "C-x <up>") 'windmove-up)
+(global-set-key (kbd "C-x <down>") 'windmove-down)
+(global-set-key (kbd "C-x <left>") 'windmove-left)
+(global-set-key (kbd "C-x <right>") 'windmove-right)
+
+(global-set-key (kbd "C-x \"") 'split-window-below)
+(global-set-key (kbd "C-x |") 'split-window-right)
+
+(global-set-key (kbd "M-.") 'next-buffer)
+(global-set-key (kbd "M-,") 'previous-buffer)
