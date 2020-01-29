@@ -377,3 +377,14 @@ With a prefix argument, insert a newline above the current line."
 (global-set-key (kbd "C-x C-b") 'ido-switch-buffer)
 (setq ibuffer-expert t)
 (global-set-key (kbd "M-x") 'smex)
+(require 'use-package) ; TODO install it
+
+(use-package magit ; TODO key bindings and such
+  :ensure t)
+(global-set-key (kbd "C-x g") 'magit-status)
+(global-set-key (kbd "C-x M-l") 'magit-log-current)
+(global-set-key (kbd "C-x M-d") 'magit-diff-unstaged)
+(global-set-key (kbd "C-x C-b") 'magit-blame-addition)
+(global-set-key (kbd "C-x M-b") 'magit-blame-quit)
+(global-set-key (kbd "C-x M-p") 'magit-pull-from-upstream)
+(global-set-key (kbd "C-x M-u") 'magit-push-current-to-upstream)
