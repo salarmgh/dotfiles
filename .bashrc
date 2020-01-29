@@ -22,5 +22,3 @@ alias genupdate='sudo emerge -auvND --with-bdeps=y @world'
 alias emacs='emacs -nw'
 
 source ~/.helpers
-
-source <(kubectl completion bash)

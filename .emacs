@@ -1,3 +1,4 @@
+;; Melpa repository
 (require 'package)
 (let* ((no-ssl (and (memq system-type '(windows-nt ms-dos))
                     (not (gnutls-available-p))))
@@ -8,38 +9,52 @@ Your version of Emacs does not support SSL connections,
 which is unsafe because it allows man-in-the-middle attacks.
 There are two things you can do about this warning:
 1. Install an Emacs version that does support SSL and be safe.
-2. Remove this warning from your init file so you won't see it again."))
-  ;; Comment/uncomment these two lines to enable/disable MELPA and MELPA Stable as desired
-  (add-to-list 'package-archives (cons "melpa" (concat proto "://melpa.org/packages/")) t)
-  ;;(add-to-list 'package-archives (cons "melpa-stable" (concat proto "://stable.melpa.org/packages/")) t)
+2. Remove this warning from your init file so you won't see it again."
+          ))
+  (add-to-list 'package-archives (
+    cons "melpa" (concat proto "://melpa.org/packages/")) t)
   (when (< emacs-major-version 24)
-    ;; For important compatibility libraries like cl-lib
-    (add-to-list 'package-archives (cons "gnu" (concat proto "://elpa.gnu.org/packages/")))))
+    (add-to-list 'package-archives (
+      cons "gnu" (concat proto "://elpa.gnu.org/packages/")))))
 (package-initialize)
 
-;; flycheck
+;; Install packages
+; Packages list
+(setq package-list '(web-mode flycheck tide elpy py-autopep8
+                              git-gutter ido-vertical-mode
+                              darkburn-theme magit smex
+                              fill-column-indicator undo-fu))
+; Update repo
+(unless package-archive-contents
+  (package-refresh-contents))
+
+; Install packages
+(dolist (package package-list)
+  (unless (package-installed-p package)
+    (package-install package)))
+
+;; Flycheck
 (require 'flycheck)
 
-;; tide
+;; Tide
+(require 'tide)
+
 (defun setup-tide-mode ()
-  (interactive)
+  (interactive)p
   (setq typescript-indent-level 2)
   (tide-setup)
   (flycheck-mode +1)
   (setq flycheck-check-syntax-automatically '(save mode-enabled))
   (eldoc-mode +1)
   (tide-hl-identifier-mode +1)
-  ;; company is an optional dependency. You have to
-  ;; install it separately via package-install
-  ;; `M-x package-install [ret] company`
-  (company-mode +1))
-(require 'tide)
+
+
+;; web-mode for jsx/tsx
 (require 'web-mode)
 (add-to-list 'auto-mode-alist '("\\.tsx\\'" . web-mode))
 (add-hook 'web-mode-hook
           (lambda ()
-            (when (string-equal "tsx" (file-name-extension buffer-file-name))
-              (setup-tide-mode))))
+            (when (string-equal "tsx" (file-name-extension buffer-file-name))(setup-tide-mode))))
 
 ;; enable typescript-tslint checker
 (flycheck-add-mode 'typescript-tslint 'web-mode)
@@ -377,10 +392,6 @@ With a prefix argument, insert a newline above the current line."
 (global-set-key (kbd "C-x C-b") 'ido-switch-buffer)
 (setq ibuffer-expert t)
 (global-set-key (kbd "M-x") 'smex)
-(require 'use-package) ; TODO install it
-
-(use-package magit ; TODO key bindings and such
-  :ensure t)
 (global-set-key (kbd "C-x g") 'magit-status)
 (global-set-key (kbd "C-x M-l") 'magit-log-current)
 (global-set-key (kbd "C-x M-d") 'magit-diff-unstaged)
@@ -388,3 +399,12 @@ With a prefix argument, insert a newline above the current line."
 (global-set-key (kbd "C-x M-b") 'magit-blame-quit)
 (global-set-key (kbd "C-x M-p") 'magit-pull-from-upstream)
 (global-set-key (kbd "C-x M-u") 'magit-push-current-to-upstream)
+
+
+
+
+
+(require 'fill-column-indicator)
+(add-hook 'emacs-lisp-mode-hook (lambda ()
+    (fci-mode 1)
+  ))

@@ -1,7 +1,7 @@
 Xcursor.size: 16
 XTerm*renderFont: true
 XTerm*loginshell: true
-XTerm*faceName: IBM Plex Mono Medium
+XTerm*faceName: Hack
 xterm*background: #111111
 xterm*foreground: #DCDCCC
 XTerm*faceSize: 14
@@ -14,4 +14,3 @@ XTerm.vt100.saveLines: 10000000
 XTerm*VT100*translations: #override \n\
     Ctrl Shift <Key>C: copy-selection(CLIPBOARD) \n\
         Ctrl Shift <Key>V: insert-selection(CLIPBOARD)
-
