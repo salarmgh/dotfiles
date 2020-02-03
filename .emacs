@@ -24,7 +24,9 @@ There are two things you can do about this warning:
                               git-gutter ido-vertical-mode
                               darkburn-theme magit smex
                               fill-column-indicator undo-fu yaml-mode
-                              dockerfile-mode docker-compose-mode))
+                              dockerfile-mode docker-compose-mode
+                              doom-themes markdown-mode pandoc-mode
+                              use-package))
 ; Update repo
 (unless package-archive-contents
   (package-refresh-contents))
@@ -33,6 +35,14 @@ There are two things you can do about this warning:
 (dolist (package package-list)
   (unless (package-installed-p package)
     (package-install package)))
+
+(use-package markdown-mode
+  :ensure t
+  :commands (markdown-mode gfm-mode)
+  :mode (("README\\.md\\'" . gfm-mode)
+         ("\\.md\\'" . markdown-mode)
+         ("\\.markdown\\'" . markdown-mode)))
+(add-hook 'markdown-mode-hook 'conditionally-turn-on-pandoc)
 
 ;; flycheck
 (require 'flycheck)
@@ -167,15 +177,15 @@ There are two things you can do about this warning:
 ;; Shortcuts
 
 ; (meta [) for comment region
-(define-key global-map [(meta \[)] 'comment-region)
+;(define-key global-map [(meta \[)] 'comment-region)
 
 ; (meta ]) for uncomment region
-(define-key global-map [(meta \])] 'uncomment-region)
+;(define-key global-map [(meta \])] 'uncomment-region)
 
 ; (m p) paste from clipboard
-(global-set-key (kbd "M-p") 'paste-from-clipboard)
+;(global-set-key (kbd "C-V") 'paste-from-clipboard)
 ; (m c) copy to clipboard
-(global-set-key (kbd "M-c") 'copy-to-clipboard)
+;(global-set-key (kbd "M-c") 'copy-to-clipboard)
 
 ; rectangle select mode
 (global-set-key (kbd "C-x v") 'rectangle-mark-mode)
@@ -278,7 +288,7 @@ There are two things you can do about this warning:
     ("#CC9393" "#DFAF8F" "#F0DFAF" "#7F9F7F" "#BFEBBF" "#93E0E3" "#94BFF3" "#DC8CC3")))
  '(package-selected-packages
    (quote
-    (doom-themes magit smex ido-vertical-mode git-gutter undo-fu php-mode docker-compose-mode yaml-mode blacken py-autopep8 elpy darkburn-theme ## company flycheck-package web-mode tide))))
+    (markdown-mode doom-themes magit smex ido-vertical-mode git-gutter undo-fu php-mode docker-compose-mode yaml-mode blacken py-autopep8 elpy darkburn-theme ## company flycheck-package web-mode tide))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
