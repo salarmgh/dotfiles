@@ -26,7 +26,7 @@ There are two things you can do about this warning:
                               fill-column-indicator undo-fu yaml-mode
                               dockerfile-mode docker-compose-mode
                               doom-themes markdown-mode pandoc-mode
-                              use-package))
+                              use-package flymd))
 ; Update repo
 (unless package-archive-contents
   (package-refresh-contents))
@@ -416,8 +416,8 @@ With a prefix argument, insert a newline above the current line."
 (global-set-key (kbd "C-x M-u") 'magit-push-current-to-upstream)
 
 
-
-
+(add-hook 'text-mode-hook 'flyspell-mode)
+(add-hook 'prog-mode-hook 'flyspell-prog-mode)
 
 (require 'fill-column-indicator)
 (add-hook 'emacs-lisp-mode-hook (lambda ()
