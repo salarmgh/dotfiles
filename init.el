@@ -34,13 +34,7 @@
 (show-paren-mode 1)
 
 ;;; Auto close pair
-(setq electric-pair-pairs '(
-                           (?\{ . ?\})
-                           (?\( . ?\))
-                           (?\[ . ?\])
-                           (?\" . ?\")
-                           ))
-(electric-pair-mode t)
+(electric-pair-mode 1)
 
 ;;; Highlight current line
 (when window-system (global-hl-line-mode t))
@@ -63,18 +57,22 @@
 (global-set-key (kbd "C-x r") 'string-rectangle)
 
 ;;; Comment region
-(define-key global-map (kbd "C-x /" 'comment-region)
+(define-key global-map (kbd "C-x /") 'comment-region)
 
 ;;; Uncomment region
 (define-key global-map (kbd "C-x \\") 'uncomment-region)
 
 ;;; Delete trailing whitespaces
 (setq require-final-newline t)
-(add-hook 'before-save-hook 'delete-trailing-whitespace)  
+(add-hook 'before-save-hook 'delete-trailing-whitespace)
 
 ;;; Buffer navigation
 (global-set-key (kbd "M-.") 'next-buffer)
 (global-set-key (kbd "M-,") 'previous-buffer)
+
+;;; Spell checker
+(add-hook 'text-mode-hook 'flyspell-mode)
+(add-hook 'prog-mode-hook 'flyspell-prog-mode)
 
 
 ;; Emacs backup management
@@ -97,6 +95,7 @@
 (global-set-key (kbd "C-x t") 'ansi-term)
 
 
+;; Packages
 ;;; Dockerfile support
 (use-package dockerfile-mode
   :ensure t)
@@ -121,6 +120,17 @@
 ;;; Doom themes
 (use-package doom-themes
   :ensure t)
+
+;;; Git support
+(use-package git-gutter
+  :ensure t)
+(global-set-key (kbd "C-x g") 'magit-status)
+(global-set-key (kbd "C-x M-l") 'magit-log-current)
+(global-set-key (kbd "C-x M-d") 'magit-diff-unstaged)
+(global-set-key (kbd "C-x C-b") 'magit-blame-addition)
+(global-set-key (kbd "C-x M-b") 'magit-blame-quit)
+(global-set-key (kbd "C-x M-p") 'magit-pull-from-upstream)
+(global-set-key (kbd "C-x M-u") 'magit-push-current-to-upstream)
 
 ;;; smex for Smarter command executor
 (use-package smex
@@ -184,7 +194,7 @@
 ;;; Expand region
 (use-package expand-region
   :ensure t
-  :bind ("C-q" . er/expand-region))
+  :bind ("C-x x" . er/expand-region))
 
 ;;; Yank history menu
 (use-package popup-kill-ring
@@ -365,7 +375,7 @@ With a prefix argument, insert a newline above the current line."
     ("e1ecb0536abec692b5a5e845067d75273fe36f24d01210bf0aa5842f2a7e029f" "fa3bdd59ea708164e7821574822ab82a3c51e262d419df941f26d64d015c90ee" "e1ef2d5b8091f4953fe17b4ca3dd143d476c106e221d92ded38614266cea3c8b" default)))
  '(package-selected-packages
    (quote
-    (swiper popup-kill-ring expand-region mark-multiple dashboard rainbow-delimiters switch-window rainbow-mode avy smex ido-vertical-mode doom-themes use-package))))
+    (git-gutter swiper popup-kill-ring expand-region mark-multiple dashboard rainbow-delimiters switch-window rainbow-mode avy smex ido-vertical-mode doom-themes use-package))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
