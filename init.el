@@ -10,6 +10,19 @@
   (package-refresh-contents)
   (package-install 'use-package))
 
+;; Set PATH environment variable
+(setenv "PATH"
+  (concat
+   "~/.local/bin/" ";"
+   (getenv "PATH")
+  )
+)
+
+(setq exec-path
+  (append
+    exec-path '("~/.local/bin")
+  )
+)
 
 ;; Appearance
 ;;; Remove unnecessary components
@@ -19,7 +32,7 @@
 (setq inhibit-startup-message t)
 
 ;;; Display line numbers
-(display-line-numbers-mode 1)
+(global-display-line-numbers-mode)
 
 ;;; Modeline line and column number
 (line-number-mode 1)
@@ -77,7 +90,22 @@
 
 ;; Emacs backup management
 ;;; Disable Emacs backup
-(setq make-backup-file nil)
+;; make backup to a designated dir, mirroring the full path
+
+(defun my-backup-file-name (fpath)
+  "Return a new file path of a given file path.
+If the new path's directories does not exist, create them."
+  (let* (
+        (backupRootDir "~/.emacs.d/backup/")
+        (filePath (replace-regexp-in-string "[A-Za-z]:" "" fpath )) ; remove Windows driver letter in path, for example, “C:”
+        (backupFilePath (replace-regexp-in-string "//" "/" (concat backupRootDir filePath "~") ))
+        )
+    (make-directory (file-name-directory backupFilePath) (file-name-directory backupFilePath))
+    backupFilePath
+  )
+)
+
+(setq make-backup-file-name-function 'my-backup-file-name)
 (setq auto-save-default nil)
 
 
@@ -121,8 +149,13 @@
 (use-package doom-themes
   :ensure t)
 
-;;; Git support
+;;; Git side support
 (use-package git-gutter
+  :ensure t)
+(global-git-gutter-mode +1)
+
+;;; Git manager
+(use-package magit
   :ensure t)
 (global-set-key (kbd "C-x g") 'magit-status)
 (global-set-key (kbd "C-x M-l") 'magit-log-current)
@@ -206,6 +239,111 @@
   :ensure t
   :bind ("C-s" . 'swiper))
 
+
+;; Programming languages
+;;; Python
+(use-package elpy
+  :ensure t)
+(elpy-enable)
+(setq elpy-modules (delq 'elpy-module-flymake elpy-modules))
+
+;;; Python formating
+(use-package blacken
+  :ensure t)
+
+(use-package py-autopep8
+  :ensure t)
+(require 'py-autopep8)
+(add-hook 'elpy-mode-hook 'py-autopep8-enable-on-save)
+(setq py-autopep8-options '("--max-line-length=80"))
+
+
+;;; Typescript
+;;; TIDE
+(use-package tide
+  :ensure t)
+
+(defun setup-tide-mode ()
+  (interactive)
+  (tide-setup)
+  (flycheck-mode +1)
+  (setq flycheck-check-syntax-automatically '(save mode-enabled))
+  (setq typescript-indent-level 2)
+  (setq typescript-indent-level
+        (or (plist-get (tide-tsfmt-options) ':indentSize) 2))
+  (eldoc-mode +1)
+  (tide-hl-identifier-mode +1))
+
+(setq typescript-indent-level 2)
+(setq-default typescript-indent-level 2)
+(setq js-indent-level 2)
+;;; formats the buffer before saving
+(add-hook 'before-save-hook 'tide-format-before-save)
+
+(add-hook 'typescript-mode-hook #'setup-tide-mod)
+
+;;; aligns annotation to the right hand side
+(setq company-tooltip-align-annotations t)
+
+;;; formats the buffer before saving
+(add-hook 'before-save-hook 'tide-format-before-save)
+
+(add-hook 'typescript-mode-hook #'setup-tide-mode)
+
+;; tsx indent format
+(setq tide-format-options '(:insertSpaceAfterFunctionKeywordForAnonymousFunctions t :placeOpenBraceOnNewLineForFunctions nil :indentSize 2 :tabSize 2))
+
+;;; Webmode
+(use-package web-mode
+  :ensure t)
+
+(add-to-list 'auto-mode-alist '("\\.tsx\\'" . web-mode))
+(add-hook 'web-mode-hook
+          (lambda ()
+            (when (string-equal "tsx" (file-name-extension buffer-file-name))
+              (setup-tide-mode))))
+
+(add-to-list 'auto-mode-alist '("\\.jsx\\'" . web-mode))
+(add-hook 'web-mode-hook
+          (lambda ()
+            (when (string-equal "jsx" (file-name-extension buffer-file-name))
+              (setup-tide-mode))))
+
+;;; web-mode indent size
+(setq web-mode-markup-indent-offset 2)
+(setq web-mode-attr-indent-offset 2)
+(setq web-mode-attr-value-indent-offset 2)
+(setq web-mode-code-indent-offset 2)
+(setq web-mode-css-indent-offset 2)
+(setq web-mode-enable-current-column-highlight 1)
+(setq web-mode-enable-current-element-highlight 1)
+(setq web-mode-block-padding 0)
+(setq web-mode-script-padding 2)
+(setq web-mode-style-padding 2)
+
+(defun my-web-mode-hook ()
+  "Hooks for Web mode."
+  (setq web-mode-markup-indent-offset 2)
+)
+
+;;; Javascript
+(setq js-indent-level 2)
+(add-hook 'js2-mode-hook #'setup-tide-mode)
+
+
+;;; CSS
+(setq css-indent-offset 2)
+
+;;; Flycheck
+;;; enable typescript-tslint checker
+(flycheck-add-mode 'typescript-tslint 'web-mode)
+;;; configure jsx-tide checker to run after your default jsx checker
+(flycheck-add-mode 'javascript-eslint 'web-mode)
+(flycheck-add-next-checker 'javascript-eslint 'jsx-tide 'append)
+(flycheck-add-next-checker 'javascript-eslint 'javascript-tide 'append)
+;;; Python flycheck
+
+(add-hook 'elpy-mode-hook 'flycheck-mode)
 
 ;; Custom functions
 ;;; Copy whole line
@@ -364,6 +502,8 @@ With a prefix argument, insert a newline above the current line."
 (define-key global-map [(meta shift n)] 'vi-open-above)
 
 
+
+
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -373,9 +513,12 @@ With a prefix argument, insert a newline above the current line."
  '(custom-safe-themes
    (quote
     ("e1ecb0536abec692b5a5e845067d75273fe36f24d01210bf0aa5842f2a7e029f" "fa3bdd59ea708164e7821574822ab82a3c51e262d419df941f26d64d015c90ee" "e1ef2d5b8091f4953fe17b4ca3dd143d476c106e221d92ded38614266cea3c8b" default)))
+ '(elpy-modules
+   (quote
+    (elpy-module-eldoc elpy-module-pyvenv elpy-module-yasnippet elpy-module-django elpy-module-sane-defaults)))
  '(package-selected-packages
    (quote
-    (git-gutter swiper popup-kill-ring expand-region mark-multiple dashboard rainbow-delimiters switch-window rainbow-mode avy smex ido-vertical-mode doom-themes use-package))))
+    (magit elpy web-mode git-gutter swiper popup-kill-ring expand-region mark-multiple dashboard rainbow-delimiters switch-window rainbow-mode avy smex ido-vertical-mode doom-themes use-package))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.

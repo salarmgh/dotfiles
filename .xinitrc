@@ -7,6 +7,7 @@
 # invoke global X session script
 #. /etc/X11/Xsession
 xrdb ~/.Xresources
+
 xrandr | grep "^eDP-1" > /dev/null 2>&1
 internal_monitor_connected=$?
 
@@ -18,4 +19,3 @@ setxkbmap -option "grp:shift_caps_toggle"
 
 #[ $internal_monitor_connected -eq 0 ] && [ $hdmi_monitor_connected -eq 0 ] && ~/.config/i3/2_monitor.sh && exec i3
 exec i3
-

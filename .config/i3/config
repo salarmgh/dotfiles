@@ -201,6 +201,8 @@ bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute 0 toggle # mute s
 bindsym XF86MonBrightnessUp exec ~/.config/i3/inc_brightness.sh
 bindsym XF86MonBrightnessDown exec ~/.config/i3/dec_brightness.sh
 bindsym $mod+m exec "i3lock -c 000000"
+bindsym $mod+t exec "emacs"
+bindsym $mod+b exec "firefox"
 
 exec --no-startup-id feh --bg-scale ~/.config/i3/background.jpg
 exec --no-startup-id parcellite -n
