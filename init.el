@@ -247,6 +247,11 @@ If the new path's directories does not exist, create them."
 (elpy-enable)
 (setq elpy-modules (delq 'elpy-module-flymake elpy-modules))
 
+;;; Kotlin
+(use-package kotlin-mode
+  :ensure t)
+
+
 ;;; Python formating
 (use-package blacken
   :ensure t)
@@ -518,7 +523,7 @@ With a prefix argument, insert a newline above the current line."
     (elpy-module-eldoc elpy-module-pyvenv elpy-module-yasnippet elpy-module-django elpy-module-sane-defaults)))
  '(package-selected-packages
    (quote
-    (magit elpy web-mode git-gutter swiper popup-kill-ring expand-region mark-multiple dashboard rainbow-delimiters switch-window rainbow-mode avy smex ido-vertical-mode doom-themes use-package))))
+    (kotlin-mode magit elpy web-mode git-gutter swiper popup-kill-ring expand-region mark-multiple dashboard rainbow-delimiters switch-window rainbow-mode avy smex ido-vertical-mode doom-themes use-package))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
