@@ -34,6 +34,7 @@
 ;; numbers are disabled. For relative line numbers, set this to `relative'.
 (setq display-line-numbers-type t)
 
+(setq projectile-project-search-path '("~/Workspace/"))
 
 ;; Here are some additional functions/macros that could help you configure Doom:
 ;;
@@ -51,3 +52,5 @@
 ;;
 ;; You can also try 'gd' (or 'C-c g d') to jump to their definition and see how
 ;; they are implemented.
+
+(setq org-todo-keywords '((sequence "TODO(t)" "INPROGRESS(i)" "WAITING(w)" "|" "DONE(d)" "CANCELED(c)")))
