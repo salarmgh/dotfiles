@@ -26,7 +26,7 @@ set t_Co=256
 syntax on
 colorscheme gruvbox
 filetype plugin indent on
-"set background=dark
+set background=dark
 set number
 set laststatus=2
 set splitright
@@ -197,3 +197,22 @@ let g:NERDToggleCheckAllLines = 1
 :command Q q
 
 autocmd FileType go nnoremap <leader>r :GoRun<CR>
+
+set scrolloff=3
+set ruler
+set showcmd
+set cmdheight=1
+set foldcolumn=1
+
+set noerrorbells
+set novisualbell
+set t_vb=
+set splitright
+
+map <C-l> :bnext<CR>
+map <C-h> :bprev<CR>
+
+" nnoremap <C-k> <C-W><up>
+" nnoremap <C-j> <C-W><down>
+" nnoremap <C-h> <C-W><left>
+" nnoremap <C-l> <C-W><right>
