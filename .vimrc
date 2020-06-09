@@ -216,3 +216,6 @@ map <C-h> :bprev<CR>
 " nnoremap <C-j> <C-W><down>
 " nnoremap <C-h> <C-W><left>
 " nnoremap <C-l> <C-W><right>
+
+let g:go_jump_to_error = 0
+let g:go_metalinter_autosave = 1
