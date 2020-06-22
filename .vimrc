@@ -1,10 +1,9 @@
-set nocompatible              " be iMproved, required
-filetype off                  " required
+set nocompatible
+filetype off
 
 set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#begin()
 Plugin 'VundleVim/Vundle.vim'
-Plugin 'morhetz/gruvbox'
 Plugin 'fatih/vim-go'
 Plugin 'tpope/vim-fugitive'
 Plugin 'w0rp/ale'
@@ -17,20 +16,23 @@ Plugin 'tpope/vim-surround'
 Plugin 'leafgarland/typescript-vim'
 Plugin 'MaxMEllon/vim-jsx-pretty'
 Plugin 'prettier/vim-prettier'
+Plugin 'vim-airline/vim-airline'
 Plugin 'AndrewRadev/splitjoin.vim'
 Plugin 'SirVer/ultisnips'
-Plugin 'fatih/molokai'
 Plugin 'preservim/nerdcommenter'
-call vundle#end()            " required
-set t_Co=256
+Plugin 'reedes/vim-colors-pencil'
+call vundle#end()
 syntax on
-colorscheme gruvbox
+
+colorscheme pencil
+set background=light
+let g:pencil_terminal_italics=1
+let g:airline_theme='pencil'
+
 filetype plugin indent on
-set background=dark
 set number
 set laststatus=2
 set splitright
-set statusline=%f%3(%m%)%r%h%w[%{&ff}]%{fugitive#statusline()}%=[%4lL,%2vC\ %P]
 set nocompatible
 set confirm
 set hidden
@@ -51,7 +53,7 @@ set autoindent
 set formatoptions+=j
 
 nnoremap <Space> <nop>
-let mapleader=' '
+let mapleader=','
 
 
 augroup indentation
@@ -121,8 +123,8 @@ nnoremap ? mm?
 
 set autowrite
 
-map <C-n> :cnext<CR>
-map <C-m> :cprevious<CR>
+nnoremap <leader>m :cnext<CR>
+nnoremap <leader>n :cprevious<CR>
 nnoremap <leader>a :cclose<CR>
 
 autocmd FileType go nmap <leader>r  <Plug>(go-run)
@@ -141,7 +143,8 @@ endfunction
 autocmd FileType go nmap <leader>, :<C-u>call <SID>build_go_files()<CR>
 autocmd FileType go nmap <Leader>c <Plug>(go-coverage-toggle)
 autocmd FileType go nmap <leader>d :GoDoc<Return>
-"autocmd FileType go nmap <leader>\ :GoDef<Return>
+autocmd FileType go nmap <leader>\ :GoDeclsDir<Return>
+autocmd FileType go nmap <Leader>i <Plug>(go-info)
 
 let g:go_fmt_command = "goimports"
 
@@ -156,11 +159,11 @@ let g:UltiSnipsEditSplit="vertical"
 
 
 let g:go_highlight_types = 1
-let g:go_highlight_fields = 1
+let g:go_highlight_fields = 0
 let g:go_highlight_functions = 1
-let g:go_highlight_function_calls = 1
-let g:go_highlight_operators = 1
-let g:go_highlight_extra_types = 1
+let g:go_highlight_function_calls = 0
+let g:go_highlight_operators = 0
+let g:go_highlight_extra_types = 0
 autocmd BufNewFile,BufRead *.go setlocal noexpandtab tabstop=4 shiftwidth=4 
 let g:go_metalinter_enabled = ['vet', 'golint', 'errcheck']
 let g:go_metalinter_autosave = 1
@@ -197,6 +200,8 @@ let g:NERDToggleCheckAllLines = 1
 :command Q q
 
 autocmd FileType go nnoremap <leader>r :GoRun<CR>
+autocmd FileType go nnoremap <leader>e :GoBuild<CR>
+autocmd FileType go nnoremap <leader>t :GoTest<CR>
 
 set scrolloff=3
 set ruler
@@ -209,13 +214,19 @@ set novisualbell
 set t_vb=
 set splitright
 
-map <C-l> :bnext<CR>
-map <C-h> :bprev<CR>
+map <C-m> :bnext<CR>
+map <C-n> :bprev<CR>
 
-" nnoremap <C-k> <C-W><up>
-" nnoremap <C-j> <C-W><down>
-" nnoremap <C-h> <C-W><left>
-" nnoremap <C-l> <C-W><right>
+map <C-i> :nohl<CR>
+
+nnoremap <C-k> <C-W><up>
+nnoremap <C-j> <C-W><down>
+nnoremap <C-h> <C-W><left>
+nnoremap <C-l> <C-W><right>
 
 let g:go_jump_to_error = 0
 let g:go_metalinter_autosave = 1
+
+set autowrite
+let g:go_list_type = "quickfix"
+let g:go_addtags_transform = "camelcase"
