@@ -20,14 +20,12 @@ Plugin 'vim-airline/vim-airline'
 Plugin 'AndrewRadev/splitjoin.vim'
 Plugin 'SirVer/ultisnips'
 Plugin 'preservim/nerdcommenter'
-Plugin 'reedes/vim-colors-pencil'
+Plugin 'morhetz/gruvbox'
 call vundle#end()
 syntax on
 
-colorscheme pencil
-set background=light
-let g:pencil_terminal_italics=1
-let g:airline_theme='pencil'
+colorscheme gruvbox
+set background=dark
 
 filetype plugin indent on
 set number
@@ -161,9 +159,9 @@ let g:UltiSnipsEditSplit="vertical"
 let g:go_highlight_types = 1
 let g:go_highlight_fields = 0
 let g:go_highlight_functions = 1
-let g:go_highlight_function_calls = 0
-let g:go_highlight_operators = 0
-let g:go_highlight_extra_types = 0
+let g:go_highlight_function_calls = 1
+let g:go_highlight_operators = 1
+let g:go_highlight_extra_types = 1
 autocmd BufNewFile,BufRead *.go setlocal noexpandtab tabstop=4 shiftwidth=4 
 let g:go_metalinter_enabled = ['vet', 'golint', 'errcheck']
 let g:go_metalinter_autosave = 1
