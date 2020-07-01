@@ -163,9 +163,9 @@ let g:go_highlight_function_calls = 1
 let g:go_highlight_operators = 1
 let g:go_highlight_extra_types = 1
 autocmd BufNewFile,BufRead *.go setlocal noexpandtab tabstop=4 shiftwidth=4 
-let g:go_metalinter_enabled = ['vet', 'golint', 'errcheck']
-let g:go_metalinter_autosave = 1
-let g:go_metalinter_autosave_enabled = ['vet', 'golint', 'errcheck']
+let g:go_metalinter_enabled = ['errcheck']
+let g:go_metalinter_autosave = 0
+let g:go_metalinter_autosave_enabled = ['errcheck']
 let g:go_metalinter_deadline = "5s"
 
 " Add spaces after comment delimiters by default
@@ -223,8 +223,8 @@ nnoremap <C-h> <C-W><left>
 nnoremap <C-l> <C-W><right>
 
 let g:go_jump_to_error = 0
-let g:go_metalinter_autosave = 1
+let g:go_metalinter_autosave = 0
 
 set autowrite
-let g:go_list_type = "quickfix"
+"let g:go_list_type = "quickfix"
 let g:go_addtags_transform = "camelcase"
