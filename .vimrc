@@ -20,12 +20,13 @@ Plugin 'vim-airline/vim-airline'
 Plugin 'AndrewRadev/splitjoin.vim'
 Plugin 'SirVer/ultisnips'
 Plugin 'preservim/nerdcommenter'
-Plugin 'morhetz/gruvbox'
+"Plugin 'morhetz/gruvbox'
+Plugin 'altercation/vim-colors-solarized'
 call vundle#end()
 syntax on
 
-colorscheme gruvbox
-set background=dark
+colorscheme solarized
+set background=light
 
 filetype plugin indent on
 set number
