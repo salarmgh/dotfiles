@@ -150,6 +150,15 @@ If the new path's directories does not exist, create them."
 ;(global-set-key (kbd "M-,") 'previous-buffer)
 
 ;; Languages
+(use-package lsp-mode
+  :ensure t)
+
+(use-package company-lsp
+  :ensure t)
+
+(use-package flycheck
+  :ensure t)
+
 (use-package go-mode
   :ensure t)
 (setenv "GOPATH" "/home/salarmgh/Workspace/go")
@@ -161,8 +170,10 @@ If the new path's directories does not exist, create them."
   ; Call Gofmt before saving                                                    
   (add-hook 'before-save-hook 'gofmt-before-save)
   ; Godef jump key binding                                                      
-  (local-set-key (kbd "M-.") 'godef-jump)
-  (local-set-key (kbd "M-*") 'pop-tag-mark)
+  (local-set-key (kbd "C-\]") 'godef-jump)
+  (local-set-key (kbd "C-\[") 'pop-tag-mark)
+  (local-set-key (kbd "C-x o") 'godoc-at-point)
+  (add-hook 'go-mode-hook 'lsp-deferred)
   )
 (add-hook 'go-mode-hook 'my-go-mode-hook)
 
@@ -184,7 +195,7 @@ If the new path's directories does not exist, create them."
     ("00445e6f15d31e9afaa23ed0d765850e9cd5e929be5e8e63b114a3346236c44c" "c433c87bd4b64b8ba9890e8ed64597ea0f8eb0396f4c9a9e01bd20a04d15d358" default)))
  '(package-selected-packages
    (quote
-    (solarized-theme r swiper git-gutter docker-compose-mode dockerfile-mode use-package))))
+    (lsp-mode solarized-theme r swiper git-gutter docker-compose-mode dockerfile-mode use-package))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
