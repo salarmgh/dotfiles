@@ -24,6 +24,8 @@
 (line-number-mode 1)
 (column-number-mode 1)
 
+(setq-default cursor-type 'bar) 
+
 ;;; Disable scroll jumps
 (setq scroll-conservatively 100)
 
