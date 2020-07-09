@@ -37,6 +37,12 @@
 ;;; Auto close pair
 (electric-pair-mode 1)
 
+
+;; Show paran matching
+(require 'paren)
+(setq show-paren-style 'parenthesis)
+(show-paren-mode +1)
+
 ;;; Highlight current line
 (when window-system (global-hl-line-mode t))
 
@@ -93,10 +99,25 @@ If the new path's directories does not exist, create them."
 (global-set-key (kbd "C-x r") 'string-rectangle)
 
 ;; Theme
+(use-package smex
+  :ensure t)
+(global-set-key (kbd "M-x") 'smex)
+
 (use-package one-themes
   :ensure t)
 
 ;; Packages
+(use-package magit
+  :ensure t)
+
+(global-set-key (kbd "C-x g") 'magit-status)
+(global-set-key (kbd "C-x M-l") 'magit-log-current)
+(global-set-key (kbd "C-x M-d") 'magit-diff-unstaged)
+(global-set-key (kbd "C-x C-b") 'magit-blame-addition)
+(global-set-key (kbd "C-x M-b") 'magit-blame-quit)
+(global-set-key (kbd "C-x M-p") 'magit-pull-from-upstream)
+(global-set-key (kbd "C-x M-u") 'magit-push-current-to-upstream)
+
 ;;; Dockerfile support
 (use-package dockerfile-mode
   :ensure t)
@@ -154,6 +175,55 @@ If the new path's directories does not exist, create them."
 ;(global-set-key (kbd "M-,") 'previous-buffer)
 
 ;; Languages
+;;js,tsx
+(use-package tide
+  :ensure t)
+(defun setup-tide-mode ()
+  (interactive)
+  (tide-setup)
+  (flycheck-mode +1)
+  (setq flycheck-check-syntax-automatically '(save mode-enabled))
+  (eldoc-mode +1)
+  (tide-hl-identifier-mode +1)
+  ;; company is an optional dependency. You have to
+  ;; install it separately via package-install
+  ;; `M-x package-install [ret] company`
+  (company-mode +1))
+
+;; aligns annotation to the right hand side
+(setq company-tooltip-align-annotations t)
+
+;; formats the buffer before saving
+(add-hook 'before-save-hook 'tide-format-before-save)
+
+(add-hook 'typescript-mode-hook #'setup-tide-mode)
+;; web-mode
+(use-package web-mode
+  :ensure t)
+(add-to-list 'auto-mode-alist '("\\.tsx\\'" . web-mode))
+(add-hook 'web-mode-hook
+          (lambda ()
+            (when (string-equal "tsx" (file-name-extension buffer-file-name))
+              (setup-tide-mode))))
+;; enable typescript-tslint checker
+(flycheck-add-mode 'typescript-tslint 'web-mode)
+(add-to-list 'auto-mode-alist '("\\.jsx\\'" . web-mode))
+(add-hook 'web-mode-hook
+          (lambda ()
+            (when (string-equal "jsx" (file-name-extension buffer-file-name))
+              (setup-tide-mode))))
+;; configure jsx-tide checker to run after your default jsx checker
+(flycheck-add-mode 'javascript-eslint 'web-mode)
+(flycheck-add-next-checker 'javascript-eslint 'jsx-tide 'append)
+
+(use-package markdown-mode
+  :ensure t
+  :commands (markdown-mode gfm-mode)
+  :mode (("README\\.md\\'" . gfm-mode)
+         ("\\.md\\'" . markdown-mode)
+         ("\\.markdown\\'" . markdown-mode)))
+(add-hook 'markdown-mode-hook 'conditionally-turn-on-pandoc)
+
 (use-package lsp-mode
   :ensure t)
 
@@ -180,6 +250,80 @@ If the new path's directories does not exist, create them."
   (add-hook 'go-mode-hook 'lsp-deferred)
   )
 (add-hook 'go-mode-hook 'my-go-mode-hook)
+(use-package flycheck-golangci-lint
+  :hook (go-mode . flycheck-golangci-lint-setup))
+
+
+;; Functions
+; Re-create ci" ca"...
+(defun seek-backward-to-char (chr)
+  "Seek backwards to a character"
+  (interactive "cSeek back to char: ")
+  (while (not (= (char-after) chr))
+    (forward-char -1)))
+
+(setq char-pairs
+      '(( ?\" . ?\" )
+        ( ?\' . ?\' )
+        ( ?\( . ?\) )
+        ( ?\[ . ?\] )
+        ( ?\{ . ?\} )
+        ( ?<  . ?>  )))
+
+(defun get-char-pair (chr)
+  (let ((result ()))
+    (dolist (x char-pairs)
+      (setq start (car x))
+      (setq end (cdr x))
+      (when (or (= chr start) (= chr end))
+        (setq result x)))
+      result))
+
+(defun get-start-char (chr)
+  (car (get-char-pair chr)))
+(defun get-end-char (chr)
+  (cdr (get-char-pair chr)))
+
+(defun seek-to-matching-char (start end count)
+  (while (> count 0)
+    (if (= (following-char) end)
+        (setq count (- count 1))
+      (if (= (following-char) start)
+          (setq count (+ count 1))))
+    (forward-char 1)))
+
+(defun seek-backward-to-matching-char (start end count)
+  (if (= (following-char) end)
+      (forward-char -1))
+  (while (> count 0)
+    (if (= (following-char) start)
+        (setq count (- count 1))
+      (if (= (following-char) end)
+          (setq count (+ count 1))))
+    (if (> count 0)
+        (forward-char -1))))
+
+(defun delete-between-pair (char)
+  "Delete in between the given pair"
+  (interactive "cDelete between char: ")
+  (seek-backward-to-matching-char (get-start-char char) (get-end-char char) 1)
+  (forward-char 1)
+  (setq mark (point))
+  (seek-to-matching-char (get-start-char char) (get-end-char char) 1)
+  (forward-char -1)
+  (kill-region mark (point)))
+
+(defun delete-all-pair (char)
+  "Delete in between the given pair and the characters"
+  (interactive "cDelete all char: ")
+  (seek-backward-to-matching-char (get-start-char char) (get-end-char char) 1)
+  (setq mark (point))
+  (forward-char 1)
+  (seek-to-matching-char (get-start-char char) (get-end-char char) 1)
+  (kill-region mark (point)))
+
+(global-set-key (kbd "C-c i") 'delete-between-pair)
+(global-set-key (kbd "C-c a") 'delete-all-pair)
 
 ;; Set default font
 (set-face-attribute 'default nil
@@ -197,6 +341,8 @@ If the new path's directories does not exist, create them."
    [default default default italic underline success warning error])
  '(ansi-color-names-vector
    ["#f4eedb" "#cc1f24" "#778c00" "#a67c00" "#007ec4" "#c42475" "#11948b" "#88999b"])
+ '(company-quickhelp-color-background "#D0D0D0")
+ '(company-quickhelp-color-foreground "#494B53")
  '(compilation-message-face (quote default))
  '(cua-global-mark-cursor-color "#11948b")
  '(cua-normal-cursor-color "#596e76")
@@ -205,7 +351,7 @@ If the new path's directories does not exist, create them."
  '(custom-enabled-themes (quote (one-light)))
  '(custom-safe-themes
    (quote
-    ("0dd2666921bd4c651c7f8a724b3416e95228a13fca1aa27dc0022f4e023bf197" "00445e6f15d31e9afaa23ed0d765850e9cd5e929be5e8e63b114a3346236c44c" "c433c87bd4b64b8ba9890e8ed64597ea0f8eb0396f4c9a9e01bd20a04d15d358" default)))
+    ("b73a23e836b3122637563ad37ae8c7533121c2ac2c8f7c87b381dd7322714cd0" "0dd2666921bd4c651c7f8a724b3416e95228a13fca1aa27dc0022f4e023bf197" "00445e6f15d31e9afaa23ed0d765850e9cd5e929be5e8e63b114a3346236c44c" "c433c87bd4b64b8ba9890e8ed64597ea0f8eb0396f4c9a9e01bd20a04d15d358" default)))
  '(fci-rule-color "#f4eedb")
  '(highlight-changes-colors (quote ("#c42475" "#5e65b6")))
  '(highlight-symbol-colors
