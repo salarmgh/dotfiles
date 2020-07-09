@@ -183,7 +183,7 @@ If the new path's directories does not exist, create them."
 
 ;; Set default font
 (set-face-attribute 'default nil
-                    :family "DejaVu Sans Mono Book"
+                    :family "Roboto Mono Light"
                     :height 120
                     :weight 'normal
                     :width 'normal)
