@@ -11,32 +11,51 @@
 
 set $mod Mod4
 
+default_border pixel 1
+default_floating_border normal
+
+hide_edge_borders none
+
+floating_modifier $mod
+
 # Font for window titles. Will also be used by the bar unless a different font
 # is used in the bar {} block below.
-font pango:Hack 11
+font pango:Droid Sans Regular 12
 
 # This font is widely installed, provides lots of unicode glyphs, right-to-left
 # text rendering and scalability on retina/hidpi displays (thanks to pango).
 #font pango:DejaVu Sans Mono 8
 
-# Before i3 v4.8, we used to recommend this one as the default:
-# font -misc-fixed-medium-r-normal--13-120-75-75-C-70-iso10646-1
-# The font above is very space-efficient, that is, it looks good, sharp and
-# clear in small sizes. However, its unicode glyph coverage is limited, the old
-# X core fonts rendering does not support right-to-left and this being a bitmap
-# font, it doesn’t scale on retina/hidpi displays.
+# The combination of xss-lock, nm-applet and pactl is a popular choice, so
+# they are included here as an example. Modify as you see fit.
+
+# xss-lock grabs a logind suspend inhibit lock and will use i3lock to lock the
+# screen before suspend. Use loginctl lock-session to lock your screen.
+exec --no-startup-id xss-lock --transfer-sleep-lock -- i3lock --nofork
+
+# NetworkManager is the most popular way to manage wireless networks on Linux,
+# and nm-applet is a desktop environment-independent system tray GUI for it.
+exec --no-startup-id nm-applet
+exec --no-startup-id volumeicon
+
+# Use pactl to adjust volume in PulseAudio.
+set $refresh_i3status killall -SIGUSR1 i3status
+bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ +10% && $refresh_i3status
+bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ -10% && $refresh_i3status
+bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute @DEFAULT_SINK@ toggle && $refresh_i3status
+bindsym XF86AudioMicMute exec --no-startup-id pactl set-source-mute @DEFAULT_SOURCE@ toggle && $refresh_i3status
 
 # Use Mouse+$mod to drag floating windows to their wanted position
 floating_modifier $mod
 
 # start a terminal
-bindsym $mod+Return exec xterm -bc -e tmux
+bindsym $mod+Return exec xterm tmux
 
 # kill focused window
 bindsym $mod+Shift+q kill
 
 # start dmenu (a program launcher)
-bindsym $mod+d exec "dmenu_run -nf '#DCDCCC' -nb '#111111' -sb '#8FB28F' -sf '#EEEEEE' -fn 'monospace-10' -p '$ '"
+#bindsym $mod+d exec dmenu_run
 # There also is the (new) i3-dmenu-desktop which only displays applications
 # shipping a .desktop file. It is a wrapper around dmenu, so you need that
 # installed.
@@ -106,35 +125,35 @@ set $ws9 "9"
 set $ws10 "10"
 
 # switch to workspace
-bindsym $mod+1 workspace $ws1
-bindsym $mod+2 workspace $ws2
-bindsym $mod+3 workspace $ws3
-bindsym $mod+4 workspace $ws4
-bindsym $mod+5 workspace $ws5
-bindsym $mod+6 workspace $ws6
-bindsym $mod+7 workspace $ws7
-bindsym $mod+8 workspace $ws8
-bindsym $mod+9 workspace $ws9
-bindsym $mod+0 workspace $ws10
+bindsym $mod+1 workspace number $ws1
+bindsym $mod+2 workspace number $ws2
+bindsym $mod+3 workspace number $ws3
+bindsym $mod+4 workspace number $ws4
+bindsym $mod+5 workspace number $ws5
+bindsym $mod+6 workspace number $ws6
+bindsym $mod+7 workspace number $ws7
+bindsym $mod+8 workspace number $ws8
+bindsym $mod+9 workspace number $ws9
+bindsym $mod+0 workspace number $ws10
 
 # move focused container to workspace
-bindsym $mod+Shift+1 move container to workspace $ws1
-bindsym $mod+Shift+2 move container to workspace $ws2
-bindsym $mod+Shift+3 move container to workspace $ws3
-bindsym $mod+Shift+4 move container to workspace $ws4
-bindsym $mod+Shift+5 move container to workspace $ws5
-bindsym $mod+Shift+6 move container to workspace $ws6
-bindsym $mod+Shift+7 move container to workspace $ws7
-bindsym $mod+Shift+8 move container to workspace $ws8
-bindsym $mod+Shift+9 move container to workspace $ws9
-bindsym $mod+Shift+0 move container to workspace $ws10
+bindsym $mod+Shift+1 move container to workspace number $ws1
+bindsym $mod+Shift+2 move container to workspace number $ws2
+bindsym $mod+Shift+3 move container to workspace number $ws3
+bindsym $mod+Shift+4 move container to workspace number $ws4
+bindsym $mod+Shift+5 move container to workspace number $ws5
+bindsym $mod+Shift+6 move container to workspace number $ws6
+bindsym $mod+Shift+7 move container to workspace number $ws7
+bindsym $mod+Shift+8 move container to workspace number $ws8
+bindsym $mod+Shift+9 move container to workspace number $ws9
+bindsym $mod+Shift+0 move container to workspace number $ws10
 
 # reload the configuration file
 bindsym $mod+Shift+c reload
 # restart i3 inplace (preserves your layout/session, can be used to upgrade i3)
 bindsym $mod+Shift+r restart
 # exit i3 (logs you out of your X session)
-bindsym $mod+Shift+e exec "i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -b 'Yes, exit i3' 'i3-msg exit'"
+bindsym $mod+Shift+e exec "i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -B 'Yes, exit i3' 'i3-msg exit'"
 
 # resize window (you can also use the mouse for that)
 mode "resize" {
@@ -161,51 +180,51 @@ mode "resize" {
         bindsym $mod+r mode "default"
 }
 
-
 bindsym $mod+r mode "resize"
 
+
+#### NEW
 # class                 border  bground text    indicator child_border
-client.focused          #111111 #111111 #DCDCCC #111111   #111111
-client.focused_inactive #2B2B2B #2B2B2B #8FB28F #2B2B2B   #2B2B2B
-client.unfocused        #333333 #222222 #888888 #292D2E   #222222
+client.focused          #015464 #015464 #FFFFFF #015464   #015464
+client.focused_inactive #3D7C8B #3D7C8B #FFFFFF #3D7C8B   #3D7C8B
+client.unfocused        #3D7C8B #3D7C8B #FFFFFF #3D7C8B   #3D7C8B
 client.urgent           #2F343A #900000 #FFFFFF #900000   #900000
 client.placeholder      #000000 #0C0C0C #FFFFFF #000000   #0C0C0C
 
 client.background       #FFFFFF
 
+bindsym $mod+d exec "dmenu_run -nf '#FFFFFF' -nb '#3D7C8B' -sb '#3D7C8B' -sf '#FFFFFF' -fn 'monospace-10' -p 'RUN: '"
+#### END
+
 # Start i3bar to display a workspace bar (plus the system information i3status
 # finds out, if available)
+#set $transparent #00000000
 bar {
-        position top
+	position top
         status_command i3status
-
-          colors {
-    background #111111
-    statusline #DCDCCC
+	#i3bar_command $HOME/.config/polybar/launch.sh dark
+	i3bar_command i3bar
+	colors {
+    background #3D7C8B
+    statusline #FFFFFF
     separator  #666666
 
-    focused_workspace  #111111 #111111 #DCDCCC
-    active_workspace   #2B2B2B #2B2B2B #8FB28F
-    inactive_workspace #2B2B2B #2B2B2B #8FB28F
+    focused_workspace  #3D7C8B #3D7C8B #FFFFFF
+    active_workspace   #015464 #015464 #FFFFFF
+    inactive_workspace #015464 #015464 #FFFFFF
     urgent_workspace   #2F343A #900000 #FFFFFF
     binding_mode       #2F343A #900000 #FFFFFF
-  }
+	}
+	#mode hide
 }
 
-# Pulse Audio controls
-bindsym XF86AudioRaiseVolume exec --no-startup-id pactl -- set-sink-volume 0 +5% #increase sound volume
-bindsym XF86AudioLowerVolume exec --no-startup-id pactl -- set-sink-volume 0 -5% #decrease sound volume
-bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute 0 toggle # mute sound
-
-# Sreen brightness controls
-bindsym XF86MonBrightnessUp exec ~/.config/i3/inc_brightness.sh
-bindsym XF86MonBrightnessDown exec ~/.config/i3/dec_brightness.sh
-bindsym $mod+m exec "i3lock -c 000000"
-bindsym $mod+t exec "emacs"
-bindsym $mod+b exec "firefox"
-
-exec --no-startup-id feh --bg-scale ~/.config/i3/background.jpg
-exec --no-startup-id parcellite -n
-exec --no-startup-id dunst
-exec --no-startup-id setxkbmap -layout us,ir
-# exec --no-startup-id setxkbmap -option "grp:shift_caps_toggle"
+bindsym $mod+space --release exec --no-startup-id rofi -show run
+bindsym $mod+Shift+w --release exec --no-startup-id rofi -show window
+bindsym $mod+Ctrl+x --release exec --no-startup-id xkill
+bindsym $mod+Shift+Print --release exec --no-startup-id i3-scrot -s
+bindsym $mod+Print --release exec --no-startup-id i3-scrot -w
+bindsym Print exec --no-startup-id i3-scrot
+bindsym $mod+o exec --no-startup-id i3lock -c000000
+exec --no-startup-id nitrogen --restore; sleep 1; compton -b
+exec --no-startup-id xfce4-power-manager
+exec --no-startup-id clipit
