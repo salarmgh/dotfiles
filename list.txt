@@ -1,8 +1,0 @@
-chromium-browser thunderbird emacs xfce4-terminal dconf-editor
-emacs:
-        .local/share/applications/emacs25.desktop
-                Exec=/usr/bin/env XLIB_SKIP_ARGB_VISUALS=1 emacs25 %F
-dconf-editor:
-        org -> gnome -> desktop -> applications -> exec
-font:
-        dejavu sans mono book

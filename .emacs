@@ -325,10 +325,19 @@ If the new path's directories does not exist, create them."
 (global-set-key (kbd "C-c i") 'delete-between-pair)
 (global-set-key (kbd "C-c a") 'delete-all-pair)
 
+(defun open-term ()
+  "Open term vertically"
+  (split-window-vertically)
+  (other-window 1)
+  (term "/bin/bash"))
+
+(global-set-key (kbd "C-x t") 'open-term)
+
+
 ;; Set default font
 (set-face-attribute 'default nil
-                    :family "Roboto Mono Light"
-                    :height 120
+                    :family "Hack"
+                    :height 160
                     :weight 'normal
                     :width 'normal)
 
@@ -348,10 +357,10 @@ If the new path's directories does not exist, create them."
  '(cua-normal-cursor-color "#596e76")
  '(cua-overwrite-cursor-color "#a67c00")
  '(cua-read-only-cursor-color "#778c00")
- '(custom-enabled-themes (quote (one-light)))
+ '(custom-enabled-themes (quote (tsdh-light)))
  '(custom-safe-themes
    (quote
-    ("b73a23e836b3122637563ad37ae8c7533121c2ac2c8f7c87b381dd7322714cd0" "0dd2666921bd4c651c7f8a724b3416e95228a13fca1aa27dc0022f4e023bf197" "00445e6f15d31e9afaa23ed0d765850e9cd5e929be5e8e63b114a3346236c44c" "c433c87bd4b64b8ba9890e8ed64597ea0f8eb0396f4c9a9e01bd20a04d15d358" default)))
+    ("1d78d6d05d98ad5b95205670fe6022d15dabf8d131fe087752cc55df03d88595" "c0a0c2f40c110b5b212eb4f2dad6ac9cac07eb70380631151fa75556b0100063" "21055a064d6d673f666baaed35a69519841134829982cbbb76960575f43424db" "b73a23e836b3122637563ad37ae8c7533121c2ac2c8f7c87b381dd7322714cd0" "0dd2666921bd4c651c7f8a724b3416e95228a13fca1aa27dc0022f4e023bf197" "00445e6f15d31e9afaa23ed0d765850e9cd5e929be5e8e63b114a3346236c44c" "c433c87bd4b64b8ba9890e8ed64597ea0f8eb0396f4c9a9e01bd20a04d15d358" default)))
  '(fci-rule-color "#f4eedb")
  '(highlight-changes-colors (quote ("#c42475" "#5e65b6")))
  '(highlight-symbol-colors
@@ -381,7 +390,8 @@ If the new path's directories does not exist, create them."
     ("#cc1f24" "#bb3e06" "#a67c00" "#4f6600" "#a8b84b" "#005797" "#11948b" "#c42475" "#5e65b6")))
  '(package-selected-packages
    (quote
-    (one-themes lsp-mode solarized-theme r swiper git-gutter docker-compose-mode dockerfile-mode use-package)))
+    (github-theme ayu-theme one-themes lsp-mode solarized-theme r swiper git-gutter docker-compose-mode dockerfile-mode use-package)))
+ '(pdf-view-midnight-colors (quote ("#969896" . "#f8eec7")))
  '(pos-tip-background-color "#f4eedb")
  '(pos-tip-foreground-color "#5d737a")
  '(smartrep-mode-line-active-bg (solarized-color-blend "#778c00" "#f4eedb" 0.2))

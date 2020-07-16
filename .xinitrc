@@ -11,6 +11,6 @@ if [ -f "$userresources" ]; then
 fi
 
 setxkbmap -layout us,ir
-setxkbmap -option "grp:shifts_toggle"
+setxkbmap -option "grp:shifts_toggle" -option "ctrl:nocaps"
 systemctl --user import-environment DISPLAY
 exec i3

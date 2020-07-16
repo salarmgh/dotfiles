@@ -22,10 +22,12 @@ Plugin 'SirVer/ultisnips'
 Plugin 'preservim/nerdcommenter'
 "Plugin 'morhetz/gruvbox'
 Plugin 'altercation/vim-colors-solarized'
+Plugin 'rakr/vim-one'
 call vundle#end()
 syntax on
 
-colorscheme solarized
+colorscheme one
+let g:airline_theme='one'
 set background=light
 
 filetype plugin indent on
