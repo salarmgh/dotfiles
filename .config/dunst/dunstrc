@@ -61,7 +61,7 @@
     appname = Firefox
     format = "<b>Mozilla Firefox</b>\n%s\n%b"
     new_icon = Mozilla Firefox
-    timeout = 0
+    timeout = 30
 
 [Volume]
     appname = Volume
