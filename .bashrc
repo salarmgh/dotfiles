@@ -8,5 +8,6 @@
 alias ls='ls --color=auto'
 PS1='[\u@\h \W]\$ '
 alias xclip='xclip -selection "clipboard"'
-export PATH=~/.local/bin:~/Workspace/go/bin:$PATH
-export GOROOT=~/Workspace/go
+export PATH=~/.local/bin:~/Workspace/go/bin:~/.emacs.d/bin:~/Workspace/go/bin:$PATH
+export GOPATH=~/Workspace/go
+export GO111MODULE=on

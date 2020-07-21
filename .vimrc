@@ -28,7 +28,7 @@ syntax on
 
 colorscheme one
 let g:airline_theme='one'
-set background=light
+set background=dark
 
 filetype plugin indent on
 set number

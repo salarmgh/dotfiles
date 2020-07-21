@@ -52,3 +52,7 @@
 ;;
 ;; You can also try 'gd' (or 'C-c c d') to jump to their definition and see how
 ;; they are implemented.
+
+;(let ((govet (flycheck-checker-get 'go-vet 'command)))
+;  (when (equal (cadr govet) "tool")
+;    (setf (cdr govet) (cddr govet))))
