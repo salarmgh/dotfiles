@@ -56,3 +56,12 @@
 ;(let ((govet (flycheck-checker-get 'go-vet 'command)))
 ;  (when (equal (cadr govet) "tool")
 ;    (setf (cdr govet) (cddr govet))))
+
+
+(setq-default
+  display-line-numbers-type 'relative
+  tab-width 4)
+(delete-selection-mode 1)
+(global-subword-mode 1)
+(setq )
+
