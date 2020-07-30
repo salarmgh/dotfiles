@@ -1,50 +1,64 @@
 Xcursor.size: 16
-*renderFont: true
-*loginshell: true
-*faceName: Roboto Sans Mono
-*faceSize: 16
-*selectToClipboard: true
-*vt100*metaSendsEscape: true
-*termName: xterm-256color
-.vt100.locale: true
-.vt100.blink: true
-.vt100.saveLines: 10000000
-*VT100*translations: #override \n\
-    Ctrl Shift <Key>C: copy-selection(CLIPBOARD) \n\
-        Ctrl Shift <Key>V: insert-selection(CLIPBOARD)
+!*renderFont: true
+!*loginshell: true
+!*faceName: Roboto Sans Mono
+!*faceSize: 16
+!*selectToClipboard: true
+!*vt100*metaSendsEscape: true
+!*termName: xterm-256color
+!.vt100.locale: true
+!.vt100.blink: true
+!.vt100.saveLines: 10000000
+!*VT100*translations: #override \n\
+!    Ctrl Shift <Key>C: copy-selection(CLIPBOARD) \n\
+!        Ctrl Shift <Key>V: insert-selection(CLIPBOARD)
 
+URxvt.font: xft:Hack:size=14
+URxvt.scrollBar: false
+URxvt.cursorBlink: 1
 
-.vt100.backarrowKey: false
-.ttyModes: erase ^?
+Xft.dpi:        96
+Xft.antialias:  true
+Xft.rgba:       rgb
+Xft.hinting:    true
+Xft.hintstyle:  hintslight
+Xft.autohint:   false
+Xft.lcdfilter:  lcddefault
 
+URxvt.iso14755: false
+URxvt.keysym.Shift-Control-V: eval:paste_clipboard
+URxvt.keysym.Shift-Control-C: eval:selection_to_clipboard
+
+!.vt100.backarrowKey: false
+!.ttyModes: erase ^?
 ! Custom
 ! Original theme https://github.com/nathanbuchar/atom-one-dark-terminal
-*.foreground:    #383A42
-*.background:    #F9F9F9
-*.cursorColor:   #383A42
+*.foreground:    #ABB2BF
+*.background:    #1E2127
+*.cursorColor:   #5C6370
 *.highlightColor:#3A3F4B
 
 ! Negro y gris
-*.color0:        #000000
-*.color8:        #383A42
+*.color0:        #1E2127
+*.color8:        #5C6370
 ! Rojos
-*.color1:        #E45649
-*.color9:        #E45649
+*.color1:        #E06C75
+*.color9:        #E06C75
 ! Verde
-*.color2:        #50A14F
-*.color10:       #50A14F
+*.color2:        #98C379
+*.color10:       #98C379
 ! Amarillo
-*.color3:        #986801
-*.color11:       #986801
+*.color3:        #D19A66
+*.color11:       #D19A66
 ! Azul
-*.color4:        #4078F2
-*.color12:       #4078F2
+*.color4:        #61AFEF
+*.color12:       #61AFEF
 ! Magenta
-*.color5:        #A626A4
-*.color13:       #A626A4
+*.color5:        #C678DD
+*.color13:       #C678DD
 ! Cyan
-*.color6:        #0184BC
-*.color14:       #0184BC
+*.color6:        #56B6C2
+*.color14:       #56B6C2
 ! Blanco
-*.color7:        #A0A1A7
+*.color7:        #ABB2BF
 *.color15:       #FFFFFF

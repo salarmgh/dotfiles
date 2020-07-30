@@ -49,7 +49,7 @@ bindsym XF86AudioMicMute exec --no-startup-id pactl set-source-mute @DEFAULT_SOU
 floating_modifier $mod
 
 # start a terminal
-bindsym $mod+Return exec xterm tmux
+bindsym $mod+Return exec urxvt -e tmux
 
 # kill focused window
 bindsym $mod+Shift+q kill
@@ -187,15 +187,15 @@ bindsym $mod+r mode "resize"
 # DARK #015464
 # LIGHT #3D7C8B
 # class                 border  bground text    indicator child_border
-client.focused          #3D7C8B #3D7C8B #FFFFFF #3D7C8B   #3D7C8B
-client.focused_inactive #015464 #015464 #FFFFFF #015464   #015464
-client.unfocused        #015464 #015464 #FFFFFF #015464   #015464
-client.urgent           #2F343A #900000 #FFFFFF #900000   #900000
-client.placeholder      #000000 #0C0C0C #FFFFFF #000000   #0C0C0C
+client.focused          #363434 #363434 #efecec #363434   #363434
+client.focused_inactive #363434 #363434 #efecec #363434   #363434
+client.unfocused        #5c5757 #5c5757 #efecec #5c5757   #5c5757 
+client.urgent           #2F343A #900000 #efecec #900000   #900000
+client.placeholder      #000000 #0C0C0C #efecec #000000   #0C0C0C
 
 client.background       #FFFFFF
 
-bindsym $mod+d exec "dmenu_run -nf '#FFFFFF' -nb '#3D7C8B' -sb '#3D7C8B' -sf '#FFFFFF' -fn 'monospace-10' -p 'RUN: '"
+bindsym $mod+d exec "dmenu_run -nf '#efecec' -nb '#363434' -sb '#363434' -sf '#efecec' -fn 'Hack-11' -p 'RUN: '"
 #### END
 
 # Start i3bar to display a workspace bar (plus the system information i3status
@@ -207,13 +207,13 @@ bar {
 	#i3bar_command $HOME/.config/polybar/launch.sh dark
 	i3bar_command i3bar
 	colors {
-    background #3D7C8B
-    statusline #FFFFFF
-    separator  #666666
+    background #363434
+    statusline #efecec
+    separator  #363434
 
-    focused_workspace  #015464 #015464 #FFFFFF
+    focused_workspace  #62929a #62929a #efecec
     active_workspace   #3D7C8B #3D7C8B #FFFFFF
-    inactive_workspace #3D7C8B #3D7C8B #FFFFFF
+    inactive_workspace #5c5757 #5c5757 #FFFFFF
     urgent_workspace   #2F343A #900000 #FFFFFF
     binding_mode       #2F343A #900000 #FFFFFF
 	}
@@ -227,7 +227,7 @@ bindsym $mod+Shift+Print --release exec --no-startup-id i3-scrot -s
 bindsym $mod+Print --release exec --no-startup-id i3-scrot -w
 bindsym Print exec --no-startup-id i3-scrot
 bindsym $mod+o exec --no-startup-id i3lock -c000000
-exec --no-startup-id nitrogen --restore; sleep 1; compton -b
-exec --no-startup-id xfce4-power-manager
+#exec --no-startup-id compton -b
+#exec --no-startup-id xfce4-power-manager
 exec --no-startup-id clipit
-exec --no-startup-id /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1
+#exec --no-startup-id /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1

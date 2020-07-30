@@ -54,7 +54,7 @@ set autoindent
 set formatoptions+=j
 
 nnoremap <Space> <nop>
-let mapleader=','
+let mapleader=' '
 
 
 augroup indentation
