@@ -1,8 +1,5 @@
 (require 'package)
 (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
-;; Comment/uncomment this line to enable MELPA Stable if desired.  See `package-archive-priorities`
-;; and `package-pinned-packages`. Most users will not need or want to do this.
-;;(add-to-list 'package-archives '("melpa-stable" . "https://stable.melpa.org/packages/") t)
 (package-initialize)
 
 ;;; Install use-package
@@ -24,7 +21,7 @@
 (line-number-mode 1)
 (column-number-mode 1)
 
-(setq-default cursor-type 'bar) 
+;(setq-default cursor-type 'bar) 
 
 ;;; Disable scroll jumps
 (setq scroll-conservatively 100)
@@ -32,7 +29,7 @@
 
 ;; Syntax helpers
 ;;; Highlight closing paranteses
-(show-paren-mode 1)
+;(show-paren-mode 1)
 
 ;;; Auto close pair
 (electric-pair-mode 1)
@@ -92,31 +89,17 @@ If the new path's directories does not exist, create them."
 ;;; Shortcut for yes or no
 (defalias 'yes-or-no-p 'y-or-n-p)
 
-; rectangle select mode
-(global-set-key (kbd "C-x v") 'rectangle-mark-mode)
-
-; rectangle select mode
-(global-set-key (kbd "C-x r") 'string-rectangle)
-
 ;; Theme
+(use-package one-themes
+  :ensure t)
+
 (use-package smex
   :ensure t)
 (global-set-key (kbd "M-x") 'smex)
 
-(use-package one-themes
-  :ensure t)
-
 ;; Packages
 (use-package magit
   :ensure t)
-
-(global-set-key (kbd "C-x g") 'magit-status)
-(global-set-key (kbd "C-x M-l") 'magit-log-current)
-(global-set-key (kbd "C-x M-d") 'magit-diff-unstaged)
-(global-set-key (kbd "C-x C-b") 'magit-blame-addition)
-(global-set-key (kbd "C-x M-b") 'magit-blame-quit)
-(global-set-key (kbd "C-x M-p") 'magit-pull-from-upstream)
-(global-set-key (kbd "C-x M-u") 'magit-push-current-to-upstream)
 
 ;;; Dockerfile support
 (use-package dockerfile-mode
@@ -137,10 +120,20 @@ If the new path's directories does not exist, create them."
   :bind ("C-s" . 'swiper))
 
 ;;; Undo
-(use-package undo-fu
+(use-package undo-tree
   :ensure t)
-(global-set-key (kbd "C-q") 'undo-fu-only-undo)
-(global-set-key (kbd "C-\\") 'undo-fu-only-redo)
+(global-undo-tree-mode)
+
+(use-package goto-chg
+  :ensure t)
+
+(use-package cl-lib
+  :ensure t)
+
+
+(use-package evil
+  :ensure t)
+(evil-mode 1)
 
 ;;; Projectile
 (use-package projectile
@@ -175,59 +168,7 @@ If the new path's directories does not exist, create them."
 ;(global-set-key (kbd "M-,") 'previous-buffer)
 
 ;; Languages
-;;js,tsx
-(use-package tide
-  :ensure t)
-(defun setup-tide-mode ()
-  (interactive)
-  (tide-setup)
-  (flycheck-mode +1)
-  (setq flycheck-check-syntax-automatically '(save mode-enabled))
-  (eldoc-mode +1)
-  (tide-hl-identifier-mode +1)
-  ;; company is an optional dependency. You have to
-  ;; install it separately via package-install
-  ;; `M-x package-install [ret] company`
-  (company-mode +1))
-
-;; aligns annotation to the right hand side
-(setq company-tooltip-align-annotations t)
-
-;; formats the buffer before saving
-(add-hook 'before-save-hook 'tide-format-before-save)
-
-(add-hook 'typescript-mode-hook #'setup-tide-mode)
-;; web-mode
-(use-package web-mode
-  :ensure t)
-(add-to-list 'auto-mode-alist '("\\.tsx\\'" . web-mode))
-(add-hook 'web-mode-hook
-          (lambda ()
-            (when (string-equal "tsx" (file-name-extension buffer-file-name))
-              (setup-tide-mode))))
-;; enable typescript-tslint checker
-(flycheck-add-mode 'typescript-tslint 'web-mode)
-(add-to-list 'auto-mode-alist '("\\.jsx\\'" . web-mode))
-(add-hook 'web-mode-hook
-          (lambda ()
-            (when (string-equal "jsx" (file-name-extension buffer-file-name))
-              (setup-tide-mode))))
-;; configure jsx-tide checker to run after your default jsx checker
-(flycheck-add-mode 'javascript-eslint 'web-mode)
-(flycheck-add-next-checker 'javascript-eslint 'jsx-tide 'append)
-
-(use-package markdown-mode
-  :ensure t
-  :commands (markdown-mode gfm-mode)
-  :mode (("README\\.md\\'" . gfm-mode)
-         ("\\.md\\'" . markdown-mode)
-         ("\\.markdown\\'" . markdown-mode)))
-(add-hook 'markdown-mode-hook 'conditionally-turn-on-pandoc)
-
 (use-package lsp-mode
-  :ensure t)
-
-(use-package company-lsp
   :ensure t)
 
 (use-package flycheck
@@ -254,85 +195,8 @@ If the new path's directories does not exist, create them."
   :hook (go-mode . flycheck-golangci-lint-setup))
 
 
-;; Functions
-; Re-create ci" ca"...
-(defun seek-backward-to-char (chr)
-  "Seek backwards to a character"
-  (interactive "cSeek back to char: ")
-  (while (not (= (char-after) chr))
-    (forward-char -1)))
-
-(setq char-pairs
-      '(( ?\" . ?\" )
-        ( ?\' . ?\' )
-        ( ?\( . ?\) )
-        ( ?\[ . ?\] )
-        ( ?\{ . ?\} )
-        ( ?<  . ?>  )))
-
-(defun get-char-pair (chr)
-  (let ((result ()))
-    (dolist (x char-pairs)
-      (setq start (car x))
-      (setq end (cdr x))
-      (when (or (= chr start) (= chr end))
-        (setq result x)))
-      result))
-
-(defun get-start-char (chr)
-  (car (get-char-pair chr)))
-(defun get-end-char (chr)
-  (cdr (get-char-pair chr)))
-
-(defun seek-to-matching-char (start end count)
-  (while (> count 0)
-    (if (= (following-char) end)
-        (setq count (- count 1))
-      (if (= (following-char) start)
-          (setq count (+ count 1))))
-    (forward-char 1)))
-
-(defun seek-backward-to-matching-char (start end count)
-  (if (= (following-char) end)
-      (forward-char -1))
-  (while (> count 0)
-    (if (= (following-char) start)
-        (setq count (- count 1))
-      (if (= (following-char) end)
-          (setq count (+ count 1))))
-    (if (> count 0)
-        (forward-char -1))))
-
-(defun delete-between-pair (char)
-  "Delete in between the given pair"
-  (interactive "cDelete between char: ")
-  (seek-backward-to-matching-char (get-start-char char) (get-end-char char) 1)
-  (forward-char 1)
-  (setq mark (point))
-  (seek-to-matching-char (get-start-char char) (get-end-char char) 1)
-  (forward-char -1)
-  (kill-region mark (point)))
-
-(defun delete-all-pair (char)
-  "Delete in between the given pair and the characters"
-  (interactive "cDelete all char: ")
-  (seek-backward-to-matching-char (get-start-char char) (get-end-char char) 1)
-  (setq mark (point))
-  (forward-char 1)
-  (seek-to-matching-char (get-start-char char) (get-end-char char) 1)
-  (kill-region mark (point)))
-
-(global-set-key (kbd "C-c i") 'delete-between-pair)
-(global-set-key (kbd "C-c a") 'delete-all-pair)
-
-(defun open-term ()
-  "Open term vertically"
-  (split-window-vertically)
-  (other-window 1)
-  (term "/bin/bash"))
-
-(global-set-key (kbd "C-x t") 'open-term)
-
+(use-package doom-themes
+  :ensure t)
 
 ;; Set default font
 (set-face-attribute 'default nil
@@ -357,10 +221,10 @@ If the new path's directories does not exist, create them."
  '(cua-normal-cursor-color "#596e76")
  '(cua-overwrite-cursor-color "#a67c00")
  '(cua-read-only-cursor-color "#778c00")
- '(custom-enabled-themes (quote (tsdh-light)))
+ '(custom-enabled-themes (quote (doom-one)))
  '(custom-safe-themes
    (quote
-    ("1d78d6d05d98ad5b95205670fe6022d15dabf8d131fe087752cc55df03d88595" "c0a0c2f40c110b5b212eb4f2dad6ac9cac07eb70380631151fa75556b0100063" "21055a064d6d673f666baaed35a69519841134829982cbbb76960575f43424db" "b73a23e836b3122637563ad37ae8c7533121c2ac2c8f7c87b381dd7322714cd0" "0dd2666921bd4c651c7f8a724b3416e95228a13fca1aa27dc0022f4e023bf197" "00445e6f15d31e9afaa23ed0d765850e9cd5e929be5e8e63b114a3346236c44c" "c433c87bd4b64b8ba9890e8ed64597ea0f8eb0396f4c9a9e01bd20a04d15d358" default)))
+    ("2f1518e906a8b60fac943d02ad415f1d8b3933a5a7f75e307e6e9a26ef5bf570" "37144b437478e4c235824f0e94afa740ee2c7d16952e69ac3c5ed4352209eefb" "99ea831ca79a916f1bd789de366b639d09811501e8c092c85b2cb7d697777f93" "1d78d6d05d98ad5b95205670fe6022d15dabf8d131fe087752cc55df03d88595" "c0a0c2f40c110b5b212eb4f2dad6ac9cac07eb70380631151fa75556b0100063" "21055a064d6d673f666baaed35a69519841134829982cbbb76960575f43424db" "b73a23e836b3122637563ad37ae8c7533121c2ac2c8f7c87b381dd7322714cd0" "0dd2666921bd4c651c7f8a724b3416e95228a13fca1aa27dc0022f4e023bf197" "00445e6f15d31e9afaa23ed0d765850e9cd5e929be5e8e63b114a3346236c44c" "c433c87bd4b64b8ba9890e8ed64597ea0f8eb0396f4c9a9e01bd20a04d15d358" default)))
  '(fci-rule-color "#f4eedb")
  '(highlight-changes-colors (quote ("#c42475" "#5e65b6")))
  '(highlight-symbol-colors
@@ -390,7 +254,7 @@ If the new path's directories does not exist, create them."
     ("#cc1f24" "#bb3e06" "#a67c00" "#4f6600" "#a8b84b" "#005797" "#11948b" "#c42475" "#5e65b6")))
  '(package-selected-packages
    (quote
-    (github-theme ayu-theme one-themes lsp-mode solarized-theme r swiper git-gutter docker-compose-mode dockerfile-mode use-package)))
+    (doom-themes goto-chg github-theme ayu-theme one-themes lsp-mode solarized-theme r swiper git-gutter docker-compose-mode dockerfile-mode use-package)))
  '(pdf-view-midnight-colors (quote ("#969896" . "#f8eec7")))
  '(pos-tip-background-color "#f4eedb")
  '(pos-tip-foreground-color "#5d737a")
