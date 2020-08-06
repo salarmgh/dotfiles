@@ -135,6 +135,14 @@ If the new path's directories does not exist, create them."
   :ensure t)
 (evil-mode 1)
 
+(use-package evil-leader
+  :ensure t
+  :config
+  (global-evil-leader-mode)
+  (evil-leader/set-leader "SPC"))
+
+(evil-leader/set-key "b" #'ido-switch-buffer) 
+
 ;;; Projectile
 (use-package projectile
   :ensure t)
