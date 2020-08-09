@@ -142,6 +142,29 @@ If the new path's directories does not exist, create them."
   (evil-leader/set-leader "SPC"))
 
 (evil-leader/set-key "b" #'ido-switch-buffer) 
+(evil-leader/set-key "p" #'projectile-switch-project) 
+
+(use-package persp-mode
+  :ensure t)
+    (with-eval-after-load "persp-mode"
+      (setq wg-morph-on nil)
+      (setq persp-interactive-completion-function #'ido-completing-read)
+      (setq persp-autokill-buffer-on-remove 'kill-weak)
+        (add-hook 'after-init-hook #'(lambda () (persp-mode 1))))
+    (require 'persp-mode)
+
+(use-package persp-mode-projectile-bridge
+  :ensure t)
+    (with-eval-after-load "persp-mode-projectile-bridge-autoloads"
+      (add-hook 'persp-mode-projectile-bridge-mode-hook
+                #'(lambda ()
+                    (if persp-mode-projectile-bridge-mode
+                        (persp-mode-projectile-bridge-find-perspectives-for-all-buffers)
+                      (persp-mode-projectile-bridge-kill-perspectives))))
+      (add-hook 'after-init-hook
+                #'(lambda ()
+                    (persp-mode-projectile-bridge-mode 1))
+                t))
 
 ;;; Projectile
 (use-package projectile
@@ -262,7 +285,7 @@ If the new path's directories does not exist, create them."
     ("#cc1f24" "#bb3e06" "#a67c00" "#4f6600" "#a8b84b" "#005797" "#11948b" "#c42475" "#5e65b6")))
  '(package-selected-packages
    (quote
-    (doom-themes goto-chg github-theme ayu-theme one-themes lsp-mode solarized-theme r swiper git-gutter docker-compose-mode dockerfile-mode use-package)))
+    (persp-mode-projectile-bridge- doom-themes goto-chg github-theme ayu-theme one-themes lsp-mode solarized-theme r swiper git-gutter docker-compose-mode dockerfile-mode use-package)))
  '(pdf-view-midnight-colors (quote ("#969896" . "#f8eec7")))
  '(pos-tip-background-color "#f4eedb")
  '(pos-tip-foreground-color "#5d737a")
