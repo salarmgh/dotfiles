@@ -13,7 +13,8 @@ Xcursor.size: 16
 !    Ctrl Shift <Key>C: copy-selection(CLIPBOARD) \n\
 !        Ctrl Shift <Key>V: insert-selection(CLIPBOARD)
 
-URxvt.font: xft:Hack:size=14
+URxvt.font: xft:Source Code Pro:size=14
+!URxvt.font: xft:Hack:size=14
 URxvt.scrollBar: false
 URxvt.cursorBlink: 1
 
